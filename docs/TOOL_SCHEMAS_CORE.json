@@ -1,0 +1,670 @@
+{
+  "说明": "工具参数参考。以客户端 tools/list 为准。",
+  "toolset": "core",
+  "工具数量": 11,
+  "tools": [
+    {
+      "name": "spine_doctor",
+      "title": "Check Spine setup",
+      "description": "Checks the Spine CLI, editor version and license, spine-core version and work folder. Run first when something fails.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_project_info",
+      "title": "Spine project info",
+      "description": "Fast CLI summary (`Spine -i`): editor version, FPS, skeletons, bone/slot/constraint/animation lists. Several paths per call (one ~3 s CLI start).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "paths": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": ".spine, .json or .skel(.bytes)"
+            }
+          }
+        },
+        "required": [
+          "paths"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_inspect",
+      "title": "Inspect skeleton",
+      "description": "Skeleton structure. view summary (default): counts, bone tree, constraints, per-animation stats; bones|slots|skins|constraints: raw section JSON; animation: every timeline with exact keys.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "view": {
+            "type": "string",
+            "enum": [
+              "summary",
+              "bones",
+              "slots",
+              "skins",
+              "constraints",
+              "animation"
+            ]
+          },
+          "animation": {
+            "type": "string"
+          },
+          "owner": {
+            "description": "view=animation: owner name contains",
+            "type": "string"
+          },
+          "kind": {
+            "description": "view=animation: kind contains, e.g. bone.rotate",
+            "type": "string"
+          },
+          "filter": {
+            "description": "Section views: name contains",
+            "type": "string"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "description": "Entries/timelines per page (default 50)",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "keyOffset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "keyLimit": {
+            "description": "Keys per timeline (default 100)",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200
+          }
+        },
+        "required": [
+          "input"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_validate",
+      "title": "Validate skeleton",
+      "description": "Finds problems: duplicate names, bone order, missing references (Spine drops them on import), mesh indices, key order, curves, keys on physics bones; samples every animation in spine-core (NaN, loop seams, clamps, invisible keys, mesh folds, joints opening). face: blinks vs pose changes and mouth swaps, lashes while shut, mouth bones, blink timing.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "runtime": {
+            "type": "boolean"
+          },
+          "loopAnimations": {
+            "description": "Must loop cleanly (default: idle/walk/run/loop/cycle names)",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fps": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "face": {
+            "description": "Face audit (docs/USAGE.md#faces)",
+            "type": "object",
+            "properties": {
+              "animations": {
+                "description": "Default: all but `blink`",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "lids": {
+                "description": "Eyelid bones (default: named lid)",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "closedFrom": {
+                "description": "Shut lids pose, \"animation@seconds\"",
+                "type": "string"
+              },
+              "eyes": {
+                "description": "Eye slots: shut while hidden or on a `closed` attachment",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "slot": {
+                      "type": "string"
+                    },
+                    "closed": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "slot"
+                  ]
+                }
+              },
+              "blink": {
+                "description": "Blink played on a track above",
+                "type": "string"
+              },
+              "bones": {
+                "description": "Pose-change bones (default: neck/head)",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rotateSpeed": {
+                "description": "deg/s (default 20)",
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "moveSpeed": {
+                "description": "units/s (default 8% of height)",
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "hide": {
+                "description": "Hidden while shut (default: named lash)",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "mouths": {
+                "description": "Default: mouth/lips slots",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "mouthGroups": {
+                "description": "Bones of one mouth drawing: at setup while another is shown",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "slot": {
+                      "type": "string"
+                    },
+                    "attachment": {
+                      "type": "string"
+                    },
+                    "bones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "slot",
+                    "attachment",
+                    "bones"
+                  ]
+                }
+              },
+              "fps": {
+                "description": "For frame counts (default: skeleton fps or 30)",
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "faces": {
+                "description": "Several faces, one audit each: {name, + lids…mouthGroups as above}",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "additionalProperties": {}
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "input"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_render_frames",
+      "title": "Render animation frames",
+      "description": "Renders an animation with Spine's renderer (~4 s, cached) and returns a contact sheet. No MSAA or physics warm-up: for checking, not final video.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "animation": {
+            "type": "string"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "fps": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 60
+          },
+          "scale": {
+            "description": "Percent (default 50)",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 400
+          },
+          "skin": {
+            "type": "string"
+          },
+          "maxFrames": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 36
+          },
+          "cell": {
+            "description": "Max cell px",
+            "type": "integer",
+            "minimum": 64,
+            "maximum": 512
+          },
+          "refresh": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "animation"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_add_animation",
+      "title": "Add animation to project",
+      "description": "Adds one Spine 4.3 JSON animation to a .spine project. Dry-run validates against the skeleton; apply backs up, imports only this animation through the CLI, re-exports, verifies and rolls back on any mismatch. Existing names need replace; prefer a new name. Times in seconds; rotate uses `value`; bezier `curve` is absolute [cx1,cy1,cx2,cy2] per channel.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": ".spine project"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "animation": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "apply": {
+            "type": "boolean"
+          },
+          "replace": {
+            "type": "boolean"
+          },
+          "loopAnimations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "editor": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "staging",
+              "inPlace"
+            ]
+          },
+          "stagingPath": {
+            "type": "string"
+          },
+          "allowUpgrade": {
+            "description": "Write an older-version project",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "name",
+          "animation"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_list_backups",
+      "title": "List project backups",
+      "description": "Backups made before writes (newest first), ids for spine_restore_backup.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": ".spine project"
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_restore_backup",
+      "title": "Restore project backup",
+      "description": "Puts a backup back. Dry-run by default; apply backs up the current file first, then restores atomically.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": ".spine project"
+          },
+          "backupId": {
+            "type": "string"
+          },
+          "apply": {
+            "type": "boolean"
+          },
+          "force": {
+            "description": "Even if open in Spine",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "backupId"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_edit_animation",
+      "title": "Copy and edit animation keyframes",
+      "description": "Copies source to name, edits timelines in order, then uses backed-up CLI import and readback verification. Dry-run by default. edits:[] duplicates. path is JSON segments, e.g. ['bones','head','rotate']; times are seconds. set replaces whole keys at matching times. easing is normalized; raw key.curve is absolute Spine 4.3. See docs/USAGE.md#keyframe-editing.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "edits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "op": {
+                  "type": "string",
+                  "enum": [
+                    "set",
+                    "delete"
+                  ]
+                },
+                "path": {
+                  "minItems": 1,
+                  "maxItems": 5,
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "keys": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "propertyNames": {
+                      "type": "string"
+                    },
+                    "additionalProperties": {}
+                  }
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "upsert",
+                    "append",
+                    "replace"
+                  ]
+                },
+                "times": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "easing": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "op",
+                "path"
+              ]
+            }
+          },
+          "apply": {
+            "type": "boolean"
+          },
+          "replace": {
+            "type": "boolean"
+          },
+          "loopAnimations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "editor": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "staging",
+              "inPlace"
+            ]
+          },
+          "stagingPath": {
+            "type": "string"
+          },
+          "allowUpgrade": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "source",
+          "name",
+          "edits"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_editor_status",
+      "title": "Spine editor status and import check",
+      "description": "Is a Spine editor window open (and likely on this project)? While it is, writes go to a verified staging copy. With project: what still waits in the staging copy; animations confirms each one after Import Project and a save.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "staged": {
+            "description": "Staging copy",
+            "type": "string"
+          },
+          "animations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "skeleton": {
+            "type": "string"
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_status",
+      "title": "Project status and recent spine-mcp steps",
+      "description": "Instant, no CLI: file state, editor window, staging copy, backups, spine-mcp's last steps on the project and outside changes since. Call first when resuming work.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "recent": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    }
+  ]
+}

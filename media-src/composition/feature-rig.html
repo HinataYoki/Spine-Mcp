@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>spine-mcp — from a PSD</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="kit.css" />
+    <script src="kit.js"></script>
+    <style>
+      #layers { position: absolute; left: 1260px; top: 150px; width: 600px; height: 840px; opacity: 0; }
+      #layers img { position: absolute; display: block; }
+      #s2-row, #s3-row, #s4-row { display: flex; gap: 70px; align-items: center; width: 1680px; }
+      .col { flex: 0 0 720px; }
+      .col .card { margin-bottom: 36px; }
+      #imp { opacity: 0; }
+      #imp img { width: 852px; }
+      .tri { display: flex; padding: 0 0 4px; font-size: 24px; color: #4a4f73; }
+      .tri div { flex: 1; text-align: center; }
+      #sug { opacity: 0; }
+      #sug img { height: 760px; }
+      #poses { opacity: 0; }
+      #poses img { width: 880px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="root" data-composition-id="rig" data-start="0" data-duration="18" data-width="1920" data-height="1080">
+      <div id="layers" data-layout-allow-overflow></div>
+      <div class="bug"><img src="assets/img/logo.svg" alt="" />spine-mcp <span>· from a PSD</span></div>
+
+      <!-- Scene 1: hook -->
+      <section id="s1" class="scene clip" data-start="0" data-duration="3" data-track-index="0">
+        <div class="inner left" id="s1-in">
+          <div class="eyebrow" id="h0">From a PSD</div>
+          <div class="hook" id="h1">13 layers in Photoshop.</div>
+          <div class="hook-sub" id="h2">A Spine project out,<br />checked against the art.</div>
+        </div>
+      </section>
+
+      <!-- Scene 2: spine_import_layers -->
+      <section id="s2" class="scene clip" data-start="3" data-duration="5.2" data-track-index="0">
+        <div class="inner" id="s2-in">
+          <div id="s2-row">
+            <div class="col">
+              <div class="card mono" id="c2">
+                <div class="fn">spine_import_layers</div>
+                <div><span class="k">psd</span><span class="s">"bolt.psd"</span></div>
+                <div><span class="k">apply</span><span class="s">true</span></div>
+              </div>
+              <div class="rows">
+                <div class="row" id="a1"><div class="tick">✓</div><span><b>13 slots</b>, draw order from the PSD</span></div>
+                <div class="row" id="a2"><div class="tick">✓</div><span>4 groups → bones, hidden layer skipped</span></div>
+                <div class="row" id="a3"><div class="tick">✓</div><span>Spine's render = the PSD (<b>0.99</b>)</span></div>
+                <div class="row" id="a4"><div class="tick warn">!</div><span>art check: torso and head don't overlap</span></div>
+              </div>
+            </div>
+            <div class="panel" id="imp">
+              <div class="tri"><div>PSD</div><div>Spine render</div><div>difference</div></div>
+              <img src="assets/gen/import-layers.png" alt="Bolt's PSD composite, Spine's render of the new project and their difference" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scene 3: auto rig suggestions -->
+      <section id="s3" class="scene clip" data-start="8.2" data-duration="3.3" data-track-index="0">
+        <div class="inner" id="s3-in">
+          <div id="s3-row">
+            <div class="col">
+              <div class="card mono" id="c3">
+                <div class="fn">spine_auto_rig</div>
+                <div><span class="k">psd</span><span class="s">"bolt.psd"</span></div>
+              </div>
+              <div class="rows">
+                <div class="row" id="b1"><div class="tick">✓</div><span><b>13 bones</b> suggested at the joints</span></div>
+                <div class="row" id="b2"><div class="tick">✓</div><span><b>4 IK chains</b>: arms and legs</span></div>
+                <div class="row" id="b3"><div class="tick">✓</div><span>nothing written until you agree</span></div>
+              </div>
+            </div>
+            <div class="panel" id="sug"><img src="assets/gen/rig-suggest.png" alt="The skeleton spine_auto_rig suggests, drawn over Bolt's art" /></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scene 4: the rig, built and posed by Spine -->
+      <section id="s4" class="scene clip" data-start="11.5" data-duration="3.5" data-track-index="0">
+        <div class="inner" id="s4-in">
+          <div id="s4-row">
+            <div class="col">
+              <div class="card mono" id="c4">
+                <div class="fn">spine_auto_rig</div>
+                <div><span class="k">bones</span><span class="s">suggested</span></div>
+                <div><span class="k">apply</span><span class="s">true</span></div>
+              </div>
+              <div class="rows">
+                <div class="row" id="d1"><div class="tick">✓</div><span><b>18 bones · 13 meshes · 4 IK</b></span></div>
+                <div class="row" id="d2"><div class="tick">✓</div><span>setup pose off by <b>0.007 px</b></span></div>
+                <div class="row" id="d3"><div class="tick">✓</div><span>no flipped triangles in test poses</span></div>
+              </div>
+            </div>
+            <div class="panel" id="poses">
+              <img src="assets/gen/rig-apply-2.png" alt="Spine's render of the new rig: setup pose and two test poses" />
+              <div class="cap">Rendered by Spine: setup pose and two test poses</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scene 5: outro -->
+      <section id="s5" class="scene clip" data-start="15" data-duration="3" data-track-index="0">
+        <div class="inner">
+          <div class="outro">
+            <img src="assets/img/logo.svg" alt="spine-mcp logo" />
+            <div class="nm">spine-mcp</div>
+            <div class="tag">A layered PSD to a starting rig, in two calls.</div>
+            <div class="small">38 tools · Spine 4.3 · MCP</div>
+          </div>
+        </div>
+      </section>
+
+      <audio id="music" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3" data-start="0" data-duration="18" data-track-index="10" data-volume="0.3"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.8,"v":0.3},{"t":16.6,"v":0.3},{"t":18,"v":0}]}]}'></audio>
+      <audio id="x1" src="assets/sfx/impact/impactSoft_medium_001.ogg" data-start="1.64" data-duration="0.6" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="x2" src="assets/sfx/interface/click_003.ogg" data-start="4.4" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x3" src="assets/sfx/interface/click_003.ogg" data-start="4.95" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x4" src="assets/sfx/interface/click_003.ogg" data-start="5.5" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x5" src="assets/sfx/interface/click_005.ogg" data-start="6.05" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x6" src="assets/sfx/interface/click_003.ogg" data-start="9.0" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x7" src="assets/sfx/interface/click_003.ogg" data-start="9.55" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x8" src="assets/sfx/impact/impactSoft_medium_004.ogg" data-start="11.6" data-duration="0.5" data-track-index="14" data-volume="0.4"></audio>
+      <audio id="x9" src="assets/sfx/interface/click_003.ogg" data-start="12.3" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x10" src="assets/sfx/interface/click_003.ogg" data-start="12.85" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x11" src="assets/sfx/interface/click_003.ogg" data-start="13.4" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x12" src="assets/sfx/impact/impactBell_heavy_000.ogg" data-start="15" data-duration="2" data-track-index="15" data-volume="0.4"></audio>
+    </div>
+
+    <script>
+      // Bolt's PSD layers (canvas px, bottom to top) floating in the hook: the same art spine_import_layers reads.
+      const PARTS = [
+        ["shadow", 110, 520, 180, 30], ["thigh-back", 172, 300, 38, 88], ["shin-back", 160, 380, 64, 96], ["thigh", 192, 300, 38, 88],
+        ["shin", 186, 380, 64, 96], ["upper-arm-back", 110, 190, 32, 78], ["lower-arm-back", 100, 260, 40, 100], ["torso", 137, 180, 126, 136],
+        ["antenna", 194, 25, 12, 48], ["antenna-ball", 185, 5, 30, 30], ["head", 141, 70, 118, 104], ["upper-arm", 258, 190, 32, 78], ["lower-arm", 262, 260, 40, 100],
+      ];
+      const SCATTER = {
+        shadow: [-60, 160, -8], "thigh-back": [-330, 120, -32], "shin-back": [-250, 220, 24], thigh: [150, 140, 28], shin: [210, 60, -22],
+        "upper-arm-back": [-360, -40, 38], "lower-arm-back": [-200, -150, -26], torso: [-40, 30, 8], antenna: [130, -60, 40],
+        "antenna-ball": [230, -40, 0], head: [60, -90, -12], "upper-arm": [180, -170, -34], "lower-arm": [120, 230, 30],
+      };
+      const S = 1.5;
+      const box = document.getElementById("layers");
+      for (const [name, x, y, w, h] of PARTS) {
+        const img = document.createElement("img");
+        img.src = `assets/img/parts/${name}.png`;
+        img.alt = "";
+        img.className = "part";
+        img.dataset.part = name;
+        Object.assign(img.style, { left: `${x * S}px`, top: `${y * S}px`, width: `${w * S}px`, height: `${h * S}px` });
+        box.appendChild(img);
+      }
+
+      const tl = gsap.timeline({ paused: true });
+      K.frame(tl, 18);
+
+      // 1: hook, layers drift in scattered, then gather
+      tl.fromTo("#layers", { opacity: 0 }, { opacity: 1, duration: 0.01 }, 0);
+      gsap.utils.toArray("#layers .part").forEach((p, i) => {
+        const [dx, dy, r] = SCATTER[p.dataset.part];
+        tl.fromTo(p, { x: dx * 1.25, y: dy * 1.25 + 60, rotation: r * 1.4, opacity: 0 }, { x: dx, y: dy, rotation: r, opacity: 1, duration: 0.9, ease: "power3.out" }, 0.15 + i * 0.05);
+        tl.to(p, { x: 0, y: 0, rotation: 0, duration: 0.6, ease: "power3.inOut" }, 2.1 + i * 0.02);
+      });
+      K.rise(tl, "#h0", 0.15);
+      K.rise(tl, "#h1", 0.3);
+      K.rise(tl, "#h2", 1.4);
+      K.out(tl, "#s1-in", 2.65);
+      tl.to("#layers", { opacity: 0, x: 60, duration: 0.3, ease: "power2.in" }, 2.7);
+
+      // 2: import
+      K.rise(tl, "#c2", 3.05);
+      tl.fromTo("#imp", { opacity: 0, x: 70 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 3.3);
+      [4.4, 4.95, 5.5, 6.05].forEach((t, i) => K.slide(tl, `#a${i + 1}`, t));
+      K.out(tl, "#s2-in", 7.85);
+
+      // 3: suggestions
+      K.rise(tl, "#c3", 8.25);
+      tl.fromTo("#sug", { opacity: 0, x: 70 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 8.4);
+      [9.0, 9.55, 10.1].forEach((t, i) => K.slide(tl, `#b${i + 1}`, t));
+      K.out(tl, "#s3-in", 11.15);
+
+      // 4: built and posed
+      K.rise(tl, "#c4", 11.55);
+      tl.fromTo("#poses", { opacity: 0, x: 70 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 11.7);
+      [12.3, 12.85, 13.4].forEach((t, i) => K.slide(tl, `#d${i + 1}`, t));
+      K.out(tl, "#s4-in", 14.65);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["rig"] = tl;
+    </script>
+  </body>
+</html>

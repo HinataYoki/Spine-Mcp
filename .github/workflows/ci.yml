@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        # macOS: the platform the Spine and Unity suites run on locally; here its unit tests and the Spine-free smoke.
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Windows: ImageMagick, so the tests draw labels with Windows font paths and MVG files under C:\.
+      - if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          choco install imagemagick -y --no-progress
+          $im = (Get-ChildItem "C:\Program Files" -Directory -Filter "ImageMagick*" | Select-Object -First 1).FullName
+          $im | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+      # Windows: ffmpeg for the video tools in the smoke test (not on the runner image). Linux has only ImageMagick 6
+      # (no magick command), so the video tools are skipped there.
+      - if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          choco install ffmpeg -y --no-progress
+          "C:\ProgramData\chocolatey\bin" | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+      - run: npm run typecheck
+      # Unit tests only: integration tests need a licensed Spine install (SPINE_INTEGRATION=1).
+      - run: npm test
+        env:
+          REQUIRE_CHROME: "1"
+      - run: npm run build
+      # The server over stdio, the tools that need no Spine (a path with a space and non-ASCII letters).
+      - run: node scripts/smoke-nospine.mjs
+        env:
+          SMOKE_REQUIRE_MEDIA: ${{ runner.os == 'Windows' && '1' || '0' }}

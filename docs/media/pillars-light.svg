@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="172" viewBox="0 0 1000 172" role="img" aria-label="Start from a PSD, check, see and review, edit and ship Spine animations safely">
+  <rect width="1000" height="172" rx="18" fill="#F4F5FF"/>
+  <g font-family="-apple-system, 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+  <rect x="20" y="20" width="225" height="132" rx="16" fill="#FFFFFF" stroke="#8F7BFF" stroke-opacity="0.6"/>
+    <rect x="20" y="20" width="225" height="6" rx="3" fill="#4FF3E0"/>
+    <text x="42" y="68" font-size="24" font-weight="800" fill="#141833">1. Start</text>
+    <text x="42" y="104" font-size="14.5" fill="#555B8A">PSD to project · auto rig</text>
+    <text x="42" y="126" font-size="14.5" fill="#555B8A">new art in · inspect</text>
+  <rect x="265" y="20" width="225" height="132" rx="16" fill="#FFFFFF" stroke="#8F7BFF" stroke-opacity="0.6"/>
+    <rect x="265" y="20" width="225" height="6" rx="3" fill="#8E9BFF"/>
+    <text x="287" y="68" font-size="24" font-weight="800" fill="#141833">2. Check</text>
+    <text x="287" y="104" font-size="14.5" fill="#555B8A">validate what Spine drops</text>
+    <text x="287" y="126" font-size="14.5" fill="#555B8A">rig QA · mix · budget</text>
+  <rect x="510" y="20" width="225" height="132" rx="16" fill="#FFFFFF" stroke="#8F7BFF" stroke-opacity="0.6"/>
+    <rect x="510" y="20" width="225" height="6" rx="3" fill="#FFB547"/>
+    <text x="532" y="68" font-size="24" font-weight="800" fill="#141833">3. See</text>
+    <text x="532" y="104" font-size="14.5" fill="#555B8A">Spine's renders · reviews</text>
+    <text x="532" y="126" font-size="14.5" fill="#555B8A">video frame by frame</text>
+  <rect x="755" y="20" width="225" height="132" rx="16" fill="#FFFFFF" stroke="#8F7BFF" stroke-opacity="0.6"/>
+    <rect x="755" y="20" width="225" height="6" rx="3" fill="#B9AEFF"/>
+    <text x="777" y="68" font-size="24" font-weight="800" fill="#141833">4. Edit &amp; ship</text>
+    <text x="777" y="104" font-size="14.5" fill="#555B8A">derive · generate · lip sync</text>
+    <text x="777" y="126" font-size="14.5" fill="#555B8A">verified writes · Unity</text>
+  </g>
+</svg>

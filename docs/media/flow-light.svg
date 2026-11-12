@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="340" viewBox="0 0 1000 340" role="img" aria-label="How spine-mcp works: an AI agent calls spine-mcp, which uses the Spine CLI, Spine JSON, spine-core and a headless Unity to read, check and safely edit a .spine project">
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#6B5CFF"/></marker></defs>
+  <rect width="1000" height="340" rx="18" fill="#F4F5FF"/>
+  <g font-family="-apple-system, 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+  <rect x="24" y="120" width="170" height="100" rx="14" fill="#FFFFFF" stroke="#8F7BFF" stroke-width="1.5"/>
+  
+  <text x="109" y="150" font-size="18" font-weight="700" fill="#141833" text-anchor="middle">AI agent</text>
+  <text x="109" y="174" font-size="13.5" fill="#555B8A" text-anchor="middle">Claude Code,</text>
+  <text x="109" y="192" font-size="13.5" fill="#555B8A" text-anchor="middle">any MCP client</text>
+  <rect x="246" y="100" width="210" height="140" rx="14" fill="#5B3FE0" stroke="#3E33A8" stroke-width="1.5"/>
+  
+  <text x="351" y="141" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle">spine-mcp</text>
+  <text x="351" y="165" font-size="13.5" fill="#E4E0FF" text-anchor="middle">37 tools · stdio</text>
+  <text x="351" y="183" font-size="13.5" fill="#E4E0FF" text-anchor="middle">validate, measure, render</text>
+  <text x="351" y="201" font-size="13.5" fill="#E4E0FF" text-anchor="middle">derive, verify, roll back</text>
+  <rect x="520" y="24" width="220" height="64" rx="14" fill="#FFFFFF" stroke="#8F7BFF" stroke-width="1.5"/>
+  
+  <text x="630" y="45" font-size="18" font-weight="700" fill="#141833" text-anchor="middle">Spine CLI</text>
+  <text x="630" y="69" font-size="13.5" fill="#555B8A" text-anchor="middle">export · render · import -a</text>
+  <rect x="520" y="100" width="220" height="64" rx="14" fill="#FFFFFF" stroke="#8F7BFF" stroke-width="1.5"/>
+  
+  <text x="630" y="121" font-size="18" font-weight="700" fill="#141833" text-anchor="middle">Spine 4.3 JSON</text>
+  <text x="630" y="145" font-size="13.5" fill="#555B8A" text-anchor="middle">read, diff, author keys</text>
+  <rect x="520" y="176" width="220" height="64" rx="14" fill="#FFFFFF" stroke="#8F7BFF" stroke-width="1.5"/>
+  
+  <text x="630" y="197" font-size="18" font-weight="700" fill="#141833" text-anchor="middle">spine-core 4.3</text>
+  <text x="630" y="221" font-size="13.5" fill="#555B8A" text-anchor="middle">sample · compare · load</text>
+  <rect x="520" y="252" width="220" height="64" rx="14" fill="#FFFFFF" stroke="#8F7BFF" stroke-width="1.5"/>
+  
+  <text x="630" y="273" font-size="18" font-weight="700" fill="#141833" text-anchor="middle">Unity + spine-unity</text>
+  <text x="630" y="297" font-size="13.5" fill="#555B8A" text-anchor="middle">headless import · parity</text>
+  <rect x="800" y="120" width="176" height="100" rx="14" fill="#FFFFFF" stroke="#8F7BFF" stroke-width="1.5"/>
+  <rect x="814" y="109" width="61.599999999999994" height="22" rx="11" fill="#E08A1E"/><text x="822" y="124" font-size="12" font-weight="700" fill="#0E1029">writes</text>
+  <text x="888" y="150" font-size="18" font-weight="700" fill="#141833" text-anchor="middle">your .spine</text>
+  <text x="888" y="174" font-size="13.5" fill="#555B8A" text-anchor="middle">backed up before</text>
+  <text x="888" y="192" font-size="13.5" fill="#555B8A" text-anchor="middle">every write</text>
+  </g>
+  <path d="M194 170 C219 170 219 170 244 170" fill="none" stroke="#6B5CFF" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M456 170 C487 170 487 56 518 56" fill="none" stroke="#6B5CFF" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M456 170 C487 170 487 132 518 132" fill="none" stroke="#6B5CFF" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M456 170 C487 170 487 208 518 208" fill="none" stroke="#6B5CFF" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M456 170 C487 170 487 284 518 284" fill="none" stroke="#6B5CFF" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M740 56 C769 56 769 150 798 150" fill="none" stroke="#6B5CFF" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M740 132 C769 132 769 170 798 170" fill="none" stroke="#6B5CFF" stroke-width="2.5" marker-end="url(#arrow)"/>
+</svg>

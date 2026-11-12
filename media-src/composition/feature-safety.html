@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>spine-mcp — safe writes</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="kit.css" />
+    <script src="kit.js"></script>
+    <style>
+      .vs { opacity: 0; }
+      .two { display: flex; gap: 70px; align-items: center; width: 1720px; }
+      .two > div { flex: 1; }
+      .two .title { margin-bottom: 26px; }
+      .err { border-radius: 20px; background: #2a1020; border: 2px solid #ff6b81; color: #ffd6dd; padding: 26px 30px; font-family: ui-monospace, monospace; font-size: 30px; line-height: 1.5; margin-top: 30px; opacity: 0; }
+      .err b { color: #ff6b81; }
+      .pipe { display: flex; flex-direction: column; gap: 18px; }
+      .pipe .row { font-size: 38px; }
+      .pipe { gap: 24px; }
+      .json { border-radius: 20px; background: #12152b; padding: 30px 34px; font-size: 29px; box-shadow: 0 30px 90px rgba(5, 6, 30, 0.4); opacity: 0; }
+      .chip { display: inline-block; padding: 12px 26px; border-radius: 999px; border: 2px solid #4ff3e0; color: #e9fbff; font-size: 30px; font-weight: 600; margin: 0 12px 12px 0; opacity: 0; }
+      .note { font-size: 32px; color: #b9bfff; margin-top: 24px; line-height: 1.4; opacity: 0; }
+      .note b { color: #ffb547; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="root" data-composition-id="safety" data-start="0" data-duration="20" data-width="1920" data-height="1080">
+      <div class="bug"><img src="assets/img/logo.svg" alt="" />spine-mcp <span>· safe writes</span></div>
+
+      <section id="s1" class="scene clip" data-start="0" data-duration="3" data-track-index="0">
+        <div class="inner left" id="s1-in">
+          <div class="eyebrow" id="h0">Safe writes</div>
+          <div class="hook" id="h1">Spine drops a key and still says OK.</div>
+          <div class="hook-sub" id="h2">spine-mcp checks every write<br />before it counts.</div>
+        </div>
+      </section>
+
+      <!-- Scene 2: refused before the CLI -->
+      <section id="s2" class="scene clip" data-start="3" data-duration="4.6" data-track-index="0">
+        <div class="inner" id="s2-in">
+          <div class="two">
+            <div>
+              <div class="title" id="t2">A bad key never reaches the project</div>
+              <div class="card mono" id="c2">
+                <div class="fn">spine_add_animation</div>
+                <div><span class="k">name</span><span class="s">"tail-wag"</span></div>
+                <div><span class="k">apply</span><span class="s">true</span></div>
+              </div>
+              <div class="err" id="e2"><b>Not applied:</b> Animation "tail-wag" keys unknown bone "tail" (Spine drops it on import)</div>
+            </div>
+            <div>
+              <div class="pipe">
+                <div class="row" id="p1"><div class="tick">✓</div><span>dry-run by default</span></div>
+                <div class="row" id="p2"><div class="tick">✓</div><span>missing bones, slots, attachments, events block it</span></div>
+                <div class="row" id="p3"><div class="tick">✓</div><span>the project is not touched</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scene 3: a verified write -->
+      <section id="s3" class="scene clip" data-start="7.6" data-duration="4.6" data-track-index="0">
+        <div class="inner" id="s3-in">
+          <div class="two">
+            <div>
+              <div class="title" id="t3">A good one is proven</div>
+              <div class="pipe">
+                <div class="row" id="q1"><div class="tick">1</div><span>sha256-verified backup</span></div>
+                <div class="row" id="q2"><div class="tick">2</div><span>Spine CLI imports only this animation</span></div>
+                <div class="row" id="q3"><div class="tick">3</div><span>re-exported and compared</span></div>
+                <div class="row" id="q4"><div class="tick">4</div><span>any warning or mismatch rolls back</span></div>
+              </div>
+            </div>
+            <div class="json" id="j3"><span class="key">"mode"</span>: <span class="str">"applied"</span>,
+<span class="key">"backup"</span>: { <span class="key">"id"</span>: <span class="str">"2026-11-06T09-31-28-186Z"</span> },
+<span class="key">"verification"</span>: {
+  <span class="key">"animationMatches"</span>: <span class="num">true</span>,
+  <span class="key">"otherAnimationsUnchanged"</span>: <span class="num">true</span>,
+  <span class="key">"structureUnchanged"</span>: <span class="num">true</span>,
+  <span class="key">"differences"</span>: [] }</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scene 4: editor open, resuming, new Spine releases -->
+      <section id="s4" class="scene clip" data-start="12.2" data-duration="4.8" data-track-index="0">
+        <div class="inner" id="s4-in">
+          <div class="two">
+            <div>
+              <div class="title" id="t4">Pick up where you left off</div>
+              <div class="json" id="j4"><span class="key">spine_status</span> → <span class="key">"trajectory"</span>: {
+  <span class="key">"steps"</span>: <span class="num">2</span>, <span class="key">"changedSinceLastStep"</span>: <span class="num">false</span>,
+  <span class="key">"recent"</span>: [
+    { <span class="key">"tool"</span>: <span class="str">"spine_generate_animation"</span>,
+      <span class="key">"animation"</span>: <span class="str">"breathe"</span>, <span class="key">"outcome"</span>: <span class="str">"staged"</span> },
+    { <span class="key">"tool"</span>: <span class="str">"spine_add_animation"</span>,
+      <span class="key">"animation"</span>: <span class="str">"nod"</span>, <span class="key">"outcome"</span>: <span class="str">"applied"</span> } ] }</div>
+              <div class="note" id="n4">Editor open? Writes go to a <b>verified staging copy</b>: bring them in with Import Project.</div>
+            </div>
+            <div>
+              <div class="title" id="t5">Every Spine release, checked</div>
+              <div><span class="chip">Spine 4.3.26</span><span class="chip">24 probes</span><span class="chip">11 critical</span><span class="chip">all pass</span></div>
+              <div class="note" id="n5">scripts/conformance.mjs re-checks the CLI behaviour the write path relies on and names the code to fix when a release changes it.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="s5" class="scene clip" data-start="17" data-duration="3" data-track-index="0">
+        <div class="inner">
+          <div class="outro">
+            <img src="assets/img/logo.svg" alt="spine-mcp logo" />
+            <div class="nm">spine-mcp</div>
+            <div class="tag">Backed up, verified, rolled back on any doubt.</div>
+            <div class="small">38 tools · Spine 4.3 · MCP</div>
+          </div>
+        </div>
+      </section>
+
+      <audio id="music" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3" data-start="0" data-duration="20" data-track-index="10" data-volume="0.3"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.8,"v":0.3},{"t":18.6,"v":0.3},{"t":20,"v":0}]}]}'></audio>
+      <audio id="x1" src="assets/sfx/impact/impactSoft_medium_001.ogg" data-start="1.64" data-duration="0.6" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="x2" src="assets/sfx/interface/click_005.ogg" data-start="4.1" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x3" src="assets/sfx/interface/click_003.ogg" data-start="8.3" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x4" src="assets/sfx/interface/click_003.ogg" data-start="8.85" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x5" src="assets/sfx/interface/click_003.ogg" data-start="9.4" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x6" src="assets/sfx/interface/click_003.ogg" data-start="9.95" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x7" src="assets/sfx/impact/impactBell_heavy_000.ogg" data-start="17" data-duration="1.48" data-track-index="14" data-volume="0.4"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      K.frame(tl, 20);
+      K.rise(tl, "#h0", 0.15);
+      K.rise(tl, "#h1", 0.3);
+      K.rise(tl, "#h2", 1.3);
+      K.out(tl, "#s1-in", 2.65);
+
+      K.rise(tl, "#t2", 3.05);
+      K.rise(tl, "#c2", 3.25);
+      K.rise(tl, "#e2", 4.1, { y: 16 });
+      [4.6, 5.15, 5.7].forEach((t, i) => K.slide(tl, `#p${i + 1}`, t));
+      K.out(tl, "#s2-in", 7.25);
+
+      K.rise(tl, "#t3", 7.65);
+      [8.3, 8.85, 9.4, 9.95].forEach((t, i) => K.slide(tl, `#q${i + 1}`, t));
+      K.rise(tl, "#j3", 8.0);
+      K.out(tl, "#s3-in", 11.85);
+
+      K.rise(tl, "#t4", 12.25);
+      K.rise(tl, "#j4", 12.45);
+      K.rise(tl, "#n4", 13.6, { y: 14 });
+      K.rise(tl, "#t5", 12.6);
+      K.rise(tl, "#s4 .chip", 13.0, { y: 14, d: 0.35, stagger: 0.18 });
+      K.rise(tl, "#n5", 14.0, { y: 14 });
+      K.out(tl, "#s4-in", 16.65);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["safety"] = tl;
+    </script>
+  </body>
+</html>

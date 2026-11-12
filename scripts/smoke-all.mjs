@@ -1,0 +1,20 @@
+import { cpSync, mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+const repo = process.cwd(), root = mkdtempSync(join(tmpdir(), "spine-mcp-smoke-all-"));
+process.on("exit", () => { if (!process.env.KEEP_TMP) rmSync(root, { recursive: true, force: true }); });
+const dir = join(root, "DFY"); cpSync(join(repo, "DFY"), dir, { recursive: true });
+const project = join(dir, "DFY.spine");
+const client = new Client({ name: "smoke-all", version: "1" });
+await client.connect(new StdioClientTransport({ command: process.execPath, args: [join(repo, "dist", "index.js")], env: { ...process.env, SPINE_MCP_TOOLSET: "all", SPINE_MCP_WORKDIR: join(root, "work") } }));
+const rows = [];
+async function call(name, args) { const started = Date.now(); const r = await client.callTool({ name, arguments: args }, undefined, { timeout: 900000 }); const text = r.content.find(c => c.type === "text")?.text ?? ""; rows.push({ name, ok: !r.isError, ms: Date.now() - started, chars: text.length, image: r.content.some(c => c.type === "image") }); console.log(`${r.isError ? "ERR" : "ok "} ${name} ${Date.now() - started}ms`); return r; }
+await call("spine_doctor", {}); await call("spine_project_info", { paths: [project] }); await call("spine_inspect", { input: project }); await call("spine_validate", { input: project });
+await call("spine_render_frames", { project, skeleton: "DFY", animation: "idle", maxFrames: 6 });
+await call("spine_edit_animation", { project, skeleton: "DFY", source: "idle", name: "smoke_daze", edits: [{ op: "set", path: ["bones", "头", "rotate"], mode: "replace", easing: "ease-in-out", keys: [{ time: 0, value: 0 }, { time: 0.5, value: -4 }, { time: 1, value: 0 }] }], apply: true, editor: "inPlace" });
+await call("spine_derive_animation", { project, skeleton: "DFY", source: "think", name: "smoke_think_slow", ops: [{ op: "retime", factor: 1.2 }] });
+await call("spine_export", { project, outputDir: join(root, "runtime"), format: "json" });
+await call("spine_status", { project, recent: 5 }); await client.close();
+console.log(JSON.stringify({ project, rows }, null, 2));

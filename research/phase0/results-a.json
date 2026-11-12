@@ -1,0 +1,57 @@
+[
+  {
+    "experiment": "export_json",
+    "ok": true,
+    "detail": "rc=0 3.2s spine=4.3.26"
+  },
+  {
+    "experiment": "roundtrip_new_project (expected lossy)",
+    "ok": true,
+    "detail": "rc=0 3.2s diffs=4 [\"/bones[10]/color: '4c56ffff'->'ff3f00ff'\", '/skeleton/audio: type NoneType->str', '/skins[0]/attachments/clipping/clipping/convex: added', '/skins[0]/attachments/head-bb/head/color: added'] size 56739->49474"
+  },
+  {
+    "experiment": "anim_import_new",
+    "ok": true,
+    "detail": "rc=0 3.3s added=True other_diffs=0 [] sha 4e8443671c0b->ec0dc430b089 log=['Animation import: edited.json into spineboy-pro (spineboy-pro)', 'Imported animation: idle_mcp', 'Complete.']"
+  },
+  {
+    "experiment": "anim_import_existing_no_replace",
+    "ok": true,
+    "detail": "rc=0 idle_changed=False anims=['aim', 'death', 'hoverboard', 'idle', 'idle-turn', 'idle2', 'idle_mcp', 'jump', 'portal', 'run', 'run-to-idle', 'shoot', 'walk'] log=['Imported animation: idle', 'An animation with this name already exists: idle -> idle2', 'Complete.']"
+  },
+  {
+    "experiment": "anim_import_existing_replace",
+    "ok": true,
+    "detail": "rc=0 3.4s diffs=[] log=['Animation import: edited2.json into spineboy-pro (spineboy-pro)', 'Imported animation: idle', 'Complete.']"
+  },
+  {
+    "experiment": "skeleton_import_existing",
+    "ok": true,
+    "detail": "rc=0 log=['Spine 4.3.26 Professional', 'Project import: edited.json into e6', 'Complete.'] info=['  Skeleton: spineboy-pro', '  Skeleton: edited']"
+  },
+  {
+    "experiment": "set_override",
+    "ok": true,
+    "detail": "rc=0 lines=0"
+  },
+  {
+    "experiment": "png_export",
+    "ok": true,
+    "detail": "rc=0 4.0s frames=17 log=['PNG export: spineboy-pro', 'Complete.']"
+  },
+  {
+    "experiment": "error_missing_input",
+    "ok": true,
+    "detail": "rc=1 log=['ERROR: Input path does not exist:', '.lab/phase0/spineboy/missing.spine']"
+  },
+  {
+    "experiment": "error_bad_json",
+    "ok": true,
+    "detail": "rc=1 log=['   at s.AiM._(_:197) ...', 'Cause: [serialize] Parent bone not found: nope', '   at s.NjU._(_:189) ...']"
+  },
+  {
+    "experiment": "version_pin",
+    "ok": true,
+    "detail": "rc=0 3.1s"
+  }
+]

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>spine-mcp — ship</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="kit.css" />
+    <script src="kit.js"></script>
+    <style>
+      .two { display: flex; gap: 60px; align-items: center; width: 1720px; }
+      .col { flex: 0 0 760px; }
+      .col .card { margin-bottom: 32px; }
+      .col .row { font-size: 33px; }
+      .shot { opacity: 0; }
+      .shot img { width: 900px; display: block; }
+      .tri { display: flex; padding: 10px 0 2px; font-size: 24px; color: #4a4f73; }
+      .tri div { flex: 1; text-align: center; }
+      .prefabs { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+      #c4 .k { min-width: 240px; }
+      .chip { padding: 10px 22px; border-radius: 999px; border: 2px solid #4ff3e0; color: #e9fbff; font-size: 26px; font-weight: 600; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="root" data-composition-id="ship" data-start="0" data-duration="20" data-width="1920" data-height="1080">
+      <div class="bug"><img src="assets/img/logo.svg" alt="" />spine-mcp <span>· ship</span></div>
+
+      <section id="s1" class="scene clip" data-start="0" data-duration="3" data-track-index="0">
+        <div class="inner left" id="s1-in">
+          <div class="eyebrow" id="h0">Ship it</div>
+          <div class="hook" id="h1">Exported for the game.</div>
+          <div class="hook-sub" id="h2">Then drawn by Unity and the web,<br />next to Spine's own render.</div>
+        </div>
+      </section>
+
+      <section id="s2" class="scene clip" data-start="3" data-duration="4.6" data-track-index="0">
+        <div class="inner" id="s2-in">
+          <div class="two">
+            <div class="col">
+              <div class="card mono" id="c2">
+                <div class="fn">spine_export</div>
+                <div><span class="k">preset</span><span class="s">"mobile"</span></div>
+              </div>
+              <div class="rows">
+                <div class="row" id="a1"><div class="tick">✓</div><span>binary + premultiplied-alpha atlas</span></div>
+                <div class="row" id="a2"><div class="tick">✓</div><span><b>1 page</b>, 13 regions, <b>78%</b> full, <b>0.32 MB</b></span></div>
+                <div class="row" id="a3"><div class="tick">✓</div><span>loads in spine-core before it is copied</span></div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="title" id="t2">Presets for mobile, desktop and web, one atlas per skin, data for an older runtime.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="s3" class="scene clip" data-start="7.6" data-duration="4.8" data-track-index="0">
+        <div class="inner" id="s3-in">
+          <div class="two">
+            <div class="col">
+              <div class="card mono" id="c3">
+                <div class="fn">spine_unity_check</div>
+                <div><span class="k">render</span><span class="s">true</span></div>
+              </div>
+              <div class="rows">
+                <div class="row" id="b1"><div class="tick">✓</div><span>spine-unity's own importer, headless Unity</span></div>
+                <div class="row" id="b2"><div class="tick">✓</div><span>every bone within <b>0.0001</b> units</span></div>
+                <div class="row" id="b3"><div class="tick">✓</div><span>render overlap <b>0.97</b>, in URP too</span></div>
+              </div>
+            </div>
+            <div class="panel shot" id="unity">
+              <div class="tri"><div>Spine</div><div>Unity</div><div>difference</div></div>
+              <img src="assets/gen/ship-unity.png" alt="Bolt rendered by Spine and by Unity with spine-unity, and their difference" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="s4" class="scene clip" data-start="12.4" data-duration="4.6" data-track-index="0">
+        <div class="inner" id="s4-in">
+          <div class="two">
+            <div class="col">
+              <div class="card mono" id="c4">
+                <div class="fn">spine_unity_import</div>
+                <div><span class="k">unityProject</span><span class="s">"~/Games/Hero"</span></div>
+              </div>
+              <div class="prefabs">
+                <span class="chip">SkeletonAnimation</span><span class="chip">SkeletonGraphic</span><span class="chip">SkeletonMecanim</span>
+                <span class="chip">mix durations</span><span class="chip">bone followers</span><span class="chip">GUIDs kept on update</span>
+              </div>
+            </div>
+            <div class="panel shot" id="web">
+              <div class="tri"><div>Spine</div><div>spine-webgl</div><div>difference</div></div>
+              <img src="assets/gen/ship-web.png" alt="Bolt rendered by Spine and by spine-webgl in headless Chrome, and their difference" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="s5" class="scene clip" data-start="17" data-duration="3" data-track-index="0">
+        <div class="inner">
+          <div class="outro">
+            <img src="assets/img/logo.svg" alt="spine-mcp logo" />
+            <div class="nm">spine-mcp</div>
+            <div class="tag">From Spine to Unity, checked frame by frame.</div>
+            <div class="small">38 tools · Spine 4.3 · spine-unity 4.3 · spine-webgl</div>
+          </div>
+        </div>
+      </section>
+
+      <audio id="music" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3" data-start="0" data-duration="20" data-track-index="10" data-volume="0.3"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.8,"v":0.3},{"t":18.6,"v":0.3},{"t":20,"v":0}]}]}'></audio>
+      <audio id="x1" src="assets/sfx/impact/impactSoft_medium_001.ogg" data-start="1.64" data-duration="0.6" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="x2" src="assets/sfx/interface/click_003.ogg" data-start="4.2" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x3" src="assets/sfx/interface/click_003.ogg" data-start="4.75" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x4" src="assets/sfx/interface/click_003.ogg" data-start="5.3" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x5" src="assets/sfx/interface/click_003.ogg" data-start="8.7" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x6" src="assets/sfx/interface/click_003.ogg" data-start="9.25" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x7" src="assets/sfx/interface/click_003.ogg" data-start="9.8" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x8" src="assets/sfx/impact/impactBell_heavy_000.ogg" data-start="17" data-duration="1.48" data-track-index="14" data-volume="0.4"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      K.frame(tl, 20);
+      K.rise(tl, "#h0", 0.15);
+      K.rise(tl, "#h1", 0.3);
+      K.rise(tl, "#h2", 1.3);
+      K.out(tl, "#s1-in", 2.65);
+
+      K.rise(tl, "#c2", 3.1);
+      [4.2, 4.75, 5.3].forEach((t, i) => K.slide(tl, `#a${i + 1}`, t));
+      K.rise(tl, "#t2", 3.5);
+      K.out(tl, "#s2-in", 7.25);
+
+      K.rise(tl, "#c3", 7.7);
+      tl.fromTo("#unity", { opacity: 0, x: 70 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 7.9);
+      [8.7, 9.25, 9.8].forEach((t, i) => K.slide(tl, `#b${i + 1}`, t));
+      K.out(tl, "#s3-in", 12.05);
+
+      K.rise(tl, "#c4", 12.5);
+      K.rise(tl, "#s4 .chip", 12.9, { y: 14, d: 0.35, stagger: 0.14 });
+      tl.fromTo("#web", { opacity: 0, x: 70 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 12.7);
+      K.out(tl, "#s4-in", 16.65);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["ship"] = tl;
+    </script>
+  </body>
+</html>

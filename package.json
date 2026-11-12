@@ -1,0 +1,53 @@
+{
+  "name": "spine-mcp",
+  "version": "0.70.1",
+  "description": "用于 Spine 4.3 工程检查、简单骨骼动画草稿、官方 CLI 导入和验证的本地 MCP 工具",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "keywords": [
+    "spine",
+    "spine2d",
+    "esoteric-software",
+    "mcp",
+    "model-context-protocol",
+    "animation",
+    "2d-animation",
+    "rigging",
+    "unity",
+    "game-development",
+    "ai-agent"
+  ],
+  "bin": {
+    "spine-mcp": "dist/index.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:mcp": "vitest run tests/mcp-policy.test.ts tests/project-cache.test.ts tests/tools-register.test.ts tests/keyframes.test.ts tests/cli-cwd.test.ts tests/write-normalize.test.ts tests/write-rollback.test.ts tests/derive.test.ts tests/inspect-validate.test.ts",
+    "audit:mcp": "npm run build && node scripts/audit-mcp.mjs",
+    "test:spine": "node scripts/test-spine.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "fixtures": "node scripts/copy-fixtures.mjs"
+  },
+  "dependencies": {
+    "@esotericsoftware/spine-core": "~4.3.13",
+    "@esotericsoftware/spine-webgl": "~4.3.13",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "ag-psd": "^31.0.3",
+    "playwright-core": "~1.63.0",
+    "pngjs": "^7.0.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/pngjs": "^6.0.5",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  }
+}

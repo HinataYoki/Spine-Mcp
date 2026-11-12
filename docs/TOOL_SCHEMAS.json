@@ -1,0 +1,4907 @@
+{
+  "说明": "工具参数参考。以客户端 tools/list 为准。",
+  "toolset": "all",
+  "工具数量": 39,
+  "tools": [
+    {
+      "name": "spine_doctor",
+      "title": "Check Spine setup",
+      "description": "Checks the Spine CLI, editor version and license, spine-core version and work folder. Run first when something fails.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_project_info",
+      "title": "Spine project info",
+      "description": "Fast CLI summary (`Spine -i`): editor version, FPS, skeletons, bone/slot/constraint/animation lists. Several paths per call (one ~3 s CLI start).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "paths": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": ".spine, .json or .skel(.bytes)"
+            }
+          }
+        },
+        "required": [
+          "paths"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_export_json",
+      "title": "Export project to JSON",
+      "description": "Exports a .spine project's skeletons to JSON in the cache folder (never next to the project); re-exports only when the project changed.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "refresh": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_inspect",
+      "title": "Inspect skeleton",
+      "description": "Skeleton structure. view summary (default): counts, bone tree, constraints, per-animation stats; bones|slots|skins|constraints: raw section JSON; animation: every timeline with exact keys.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "view": {
+            "type": "string",
+            "enum": [
+              "summary",
+              "bones",
+              "slots",
+              "skins",
+              "constraints",
+              "animation"
+            ]
+          },
+          "animation": {
+            "type": "string"
+          },
+          "owner": {
+            "description": "view=animation: owner name contains",
+            "type": "string"
+          },
+          "kind": {
+            "description": "view=animation: kind contains, e.g. bone.rotate",
+            "type": "string"
+          },
+          "filter": {
+            "description": "Section views: name contains",
+            "type": "string"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "limit": {
+            "description": "Entries/timelines per page (default 50)",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "keyOffset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "keyLimit": {
+            "description": "Keys per timeline (default 100)",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200
+          }
+        },
+        "required": [
+          "input"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_validate",
+      "title": "Validate skeleton",
+      "description": "Finds problems: duplicate names, bone order, missing references (Spine drops them on import), mesh indices, key order, curves, keys on physics bones; samples every animation in spine-core (NaN, loop seams, clamps, invisible keys, mesh folds, joints opening). face: blinks vs pose changes and mouth swaps, lashes while shut, mouth bones, blink timing.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "runtime": {
+            "type": "boolean"
+          },
+          "loopAnimations": {
+            "description": "Must loop cleanly (default: idle/walk/run/loop/cycle names)",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fps": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "face": {
+            "description": "Face audit (docs/USAGE.md#faces)",
+            "type": "object",
+            "properties": {
+              "animations": {
+                "description": "Default: all but `blink`",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "lids": {
+                "description": "Eyelid bones (default: named lid)",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "closedFrom": {
+                "description": "Shut lids pose, \"animation@seconds\"",
+                "type": "string"
+              },
+              "eyes": {
+                "description": "Eye slots: shut while hidden or on a `closed` attachment",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "slot": {
+                      "type": "string"
+                    },
+                    "closed": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "slot"
+                  ]
+                }
+              },
+              "blink": {
+                "description": "Blink played on a track above",
+                "type": "string"
+              },
+              "bones": {
+                "description": "Pose-change bones (default: neck/head)",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rotateSpeed": {
+                "description": "deg/s (default 20)",
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "moveSpeed": {
+                "description": "units/s (default 8% of height)",
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "hide": {
+                "description": "Hidden while shut (default: named lash)",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "mouths": {
+                "description": "Default: mouth/lips slots",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "mouthGroups": {
+                "description": "Bones of one mouth drawing: at setup while another is shown",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "slot": {
+                      "type": "string"
+                    },
+                    "attachment": {
+                      "type": "string"
+                    },
+                    "bones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "slot",
+                    "attachment",
+                    "bones"
+                  ]
+                }
+              },
+              "fps": {
+                "description": "For frame counts (default: skeleton fps or 30)",
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "faces": {
+                "description": "Several faces, one audit each: {name, + lids…mouthGroups as above}",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "additionalProperties": {}
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "input"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_measure",
+      "title": "Measure animation motion",
+      "description": "Samples an animation in spine-core (constraints, physics warmed up); per bone: rotation range, path, peak speeds, pops, holds, loop seam. rootMotion: what SkeletonRootMotion reads (travel, sliding feet, in-place speed). parts: how far each slot travels.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "animation": {
+            "type": "string"
+          },
+          "bones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fps": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "skin": {
+            "type": "string"
+          },
+          "warmupLoops": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "includeSamples": {
+            "description": "Per-frame world x/y/rotation",
+            "type": "boolean"
+          },
+          "limit": {
+            "description": "Most-moving bones shown (default 12)",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "rootMotion": {
+            "type": "object",
+            "properties": {
+              "bone": {
+                "description": "rootMotionBoneName (default root)",
+                "type": "string"
+              },
+              "feet": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "parts": {
+            "description": "Scale: px per unit",
+            "type": "number",
+            "exclusiveMinimum": 0
+          }
+        },
+        "required": [
+          "input",
+          "animation"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_timing",
+      "title": "Animation timing report",
+      "description": "Timing structure from the keys: key poses and intervals, segment durations, ease type per segment, holds.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "animation": {
+            "type": "string"
+          },
+          "bones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "detail": {
+            "description": "Per-bone segments",
+            "type": "boolean"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "required": [
+          "input",
+          "animation"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_compare_animations",
+      "title": "Compare two animations",
+      "description": "A/B of two animations of one skeleton: duration, motion ratio, per-bone changes (biggest first), timing structure; optional contact sheets.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "a": {
+            "type": "string",
+            "description": "Baseline"
+          },
+          "b": {
+            "type": "string"
+          },
+          "bones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fps": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 60
+          },
+          "render": {
+            "description": ".spine input, ~8 s",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "input",
+          "a",
+          "b"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_render_frames",
+      "title": "Render animation frames",
+      "description": "Renders an animation with Spine's renderer (~4 s, cached) and returns a contact sheet. No MSAA or physics warm-up: for checking, not final video.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "animation": {
+            "type": "string"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "fps": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 60
+          },
+          "scale": {
+            "description": "Percent (default 50)",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 400
+          },
+          "skin": {
+            "type": "string"
+          },
+          "maxFrames": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 36
+          },
+          "cell": {
+            "description": "Max cell px",
+            "type": "integer",
+            "minimum": 64,
+            "maximum": 512
+          },
+          "refresh": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "animation"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_add_animation",
+      "title": "Add animation to project",
+      "description": "Adds one Spine 4.3 JSON animation to a .spine project. Dry-run validates against the skeleton; apply backs up, imports only this animation through the CLI, re-exports, verifies and rolls back on any mismatch. Existing names need replace; prefer a new name. Times in seconds; rotate uses `value`; bezier `curve` is absolute [cx1,cy1,cx2,cy2] per channel.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": ".spine project"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "animation": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {}
+          },
+          "apply": {
+            "type": "boolean"
+          },
+          "replace": {
+            "type": "boolean"
+          },
+          "loopAnimations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "editor": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "staging",
+              "inPlace"
+            ]
+          },
+          "stagingPath": {
+            "type": "string"
+          },
+          "allowUpgrade": {
+            "description": "Write an older-version project",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "name",
+          "animation"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_derive_animation",
+      "title": "Derive animation variant",
+      "description": "Builds a new animation from an existing one with ops applied in order on the server, then adds it like spine_add_animation (validated, backed up, verified; dry-run unless apply). Ops: docs/USAGE.md#derive-operations.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": ".spine project"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ops": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "scaleValues"
+                    },
+                    "factor": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "kinds": {
+                      "description": "rotate, translate, scale, shear (default all)",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "bones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "factor"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "retime"
+                    },
+                    "factor": {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "description": "2 = half speed"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "factor"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "keepBones"
+                    },
+                    "bones": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "bones"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "dropBones"
+                    },
+                    "bones": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "bones"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "offsetBones"
+                    },
+                    "bones": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "seconds": {
+                      "type": "number"
+                    },
+                    "wrap": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "bones",
+                    "seconds"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "offsetSlots"
+                    },
+                    "slots": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "seconds": {
+                      "type": "number"
+                    },
+                    "wrap": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "slots",
+                    "seconds"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "loopFix"
+                    },
+                    "bones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "slots": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "op"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "ease"
+                    },
+                    "easing": {
+                      "type": "string",
+                      "description": "linear, stepped, ease, easeIn|Out|InOut[Sine|Cubic], easeOutBack, easeInBack, cubic-bezier(x1,y1,x2,y2)"
+                    },
+                    "bones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "kinds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "slots": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "easing"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "swapBones"
+                    },
+                    "pairs": {
+                      "description": "Default: from names",
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "string"
+                          }
+                        ],
+                        "additionalItems": false,
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    }
+                  },
+                  "required": [
+                    "op"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "mirror"
+                    },
+                    "pairs": {
+                      "description": "Default: from names; [] = every bone in place",
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "string"
+                          }
+                        ],
+                        "additionalItems": false,
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    }
+                  },
+                  "required": [
+                    "op"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "repeat"
+                    },
+                    "times": {
+                      "type": "integer",
+                      "minimum": 2,
+                      "maximum": 16
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "times"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "clean"
+                    },
+                    "thin": {
+                      "type": "boolean"
+                    },
+                    "bones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "op"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "bakePhysics"
+                    },
+                    "bones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "fps": {
+                      "type": "integer",
+                      "minimum": 10,
+                      "maximum": 120
+                    },
+                    "warmupLoops": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 20
+                    },
+                    "loop": {
+                      "type": "boolean"
+                    },
+                    "searchCycles": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 40
+                    },
+                    "cycles": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 8
+                        },
+                        {
+                          "type": "string",
+                          "const": "auto"
+                        }
+                      ]
+                    },
+                    "tolerance": {
+                      "type": "object",
+                      "properties": {
+                        "rotation": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        },
+                        "position": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        },
+                        "scale": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "op"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "blocking"
+                    },
+                    "keyPosesOnly": {
+                      "type": "boolean"
+                    },
+                    "minTimelines": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 50
+                    }
+                  },
+                  "required": [
+                    "op"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "spline"
+                    },
+                    "smoothness": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "all": {
+                      "type": "boolean"
+                    },
+                    "bones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "kinds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "loop": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "op"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "events"
+                    },
+                    "add": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "time": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "int": {
+                            "type": "integer",
+                            "minimum": -9007199254740991,
+                            "maximum": 9007199254740991
+                          },
+                          "float": {
+                            "type": "number"
+                          },
+                          "string": {
+                            "type": "string"
+                          },
+                          "volume": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                          },
+                          "balance": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                          }
+                        },
+                        "required": [
+                          "time",
+                          "name"
+                        ]
+                      }
+                    },
+                    "footsteps": {
+                      "type": "object",
+                      "properties": {
+                        "bones": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "Foot bones"
+                        },
+                        "event": {
+                          "type": "string"
+                        },
+                        "string": {
+                          "type": "string"
+                        },
+                        "int": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "volume": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 1
+                        }
+                      },
+                      "required": [
+                        "bones",
+                        "event"
+                      ]
+                    },
+                    "replace": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "op"
+                  ],
+                  "description": "Only events the skeleton defines"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "setupKeys"
+                    },
+                    "from": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "op"
+                  ]
+                }
+              ]
+            }
+          },
+          "apply": {
+            "type": "boolean"
+          },
+          "replace": {
+            "type": "boolean"
+          },
+          "loopAnimations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "editor": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "staging",
+              "inPlace"
+            ]
+          },
+          "stagingPath": {
+            "type": "string"
+          },
+          "allowUpgrade": {
+            "description": "Write an older-version project",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "source",
+          "name",
+          "ops"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_generate_animation",
+      "title": "Generate animation from the rig",
+      "description": "Generate a named animation draft. Fill the object matching type; missing controls return suggestions. Dry-run by default; apply uses verified CLI animation import and backup. Types include breathe, blink, gaze, lookAt, sway, settle, followThrough, walk, blocking, turn, squash, lipSync. Seconds/degrees/skeleton units. See docs/USAGE.md#generate-options.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": ".spine project"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "breathe",
+              "blink",
+              "gaze",
+              "lookAt",
+              "followThrough",
+              "lipSync",
+              "turn",
+              "squash",
+              "blocking",
+              "walk",
+              "sway",
+              "settle"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "breathe": {
+            "type": "object",
+            "properties": {
+              "torso": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "followers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "period": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 20
+              },
+              "amount": {
+                "description": "scaleY gain",
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 0.3
+              },
+              "rise": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "rotate": {
+                "type": "number"
+              },
+              "lag": {
+                "description": "Share of period",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 0.5
+              },
+              "path": {
+                "type": "string",
+                "enum": [
+                  "line",
+                  "figure8"
+                ]
+              },
+              "sway": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "swayPeriod": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 60
+              },
+              "swayLag": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "phase": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "restStart": {
+                "type": "boolean"
+              }
+            }
+          },
+          "blink": {
+            "type": "object",
+            "properties": {
+              "eyes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "slot": {
+                      "type": "string"
+                    },
+                    "open": {
+                      "type": "string",
+                      "description": "\"\" when the slot is empty while open (a lid drawn over the eye)"
+                    },
+                    "closed": {
+                      "type": "string"
+                    },
+                    "half": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "slot",
+                    "open",
+                    "closed"
+                  ]
+                }
+              },
+              "lids": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "bone": {
+                      "type": "string"
+                    },
+                    "closedScale": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "closed": {
+                      "description": "Offsets from setup",
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "number"
+                        },
+                        "y": {
+                          "type": "number"
+                        },
+                        "rotate": {
+                          "type": "number"
+                        },
+                        "scaleX": {
+                          "type": "number"
+                        },
+                        "scaleY": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "closedFrom": {
+                      "description": "anim@seconds",
+                      "type": "string"
+                    },
+                    "openFrom": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "bone"
+                  ]
+                }
+              },
+              "duration": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 60
+              },
+              "at": {
+                "type": "number",
+                "minimum": 0
+              },
+              "blinks": {
+                "maxItems": 60,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "time": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "double": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "time"
+                  ]
+                }
+              },
+              "closeTime": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "holdTime": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "openTime": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "blinkTime": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1
+              },
+              "double": {
+                "type": "boolean"
+              },
+              "hide": {
+                "description": "Slots hidden while shut",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "hideAt": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "exclusiveMaximum": 1
+              },
+              "onPoses": {
+                "type": "object",
+                "properties": {
+                  "source": {
+                    "type": "string"
+                  },
+                  "bones": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "rotateSpeed": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "moveSpeed": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "minGap": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10
+                  }
+                },
+                "required": [
+                  "source"
+                ]
+              },
+              "fill": {
+                "description": "Max gap between blinks",
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 20
+              }
+            }
+          },
+          "gaze": {
+            "type": "object",
+            "properties": {
+              "bones": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "fixations": {
+                "maxItems": 100,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "time": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "time",
+                    "x",
+                    "y"
+                  ]
+                }
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 60
+              },
+              "seed": {
+                "type": "integer",
+                "minimum": -1000000000,
+                "maximum": 1000000000
+              },
+              "radius": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "duration": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 60
+              },
+              "dart": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 0.5
+              },
+              "drift": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "brows": {
+                "type": "object",
+                "properties": {
+                  "bones": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "lift": {
+                    "type": "number"
+                  },
+                  "arch": {
+                    "type": "number"
+                  },
+                  "dip": {
+                    "type": "number"
+                  },
+                  "dips": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  }
+                },
+                "required": [
+                  "bones"
+                ]
+              }
+            }
+          },
+          "lookAt": {
+            "type": "object",
+            "properties": {
+              "bones": {
+                "description": "Base to head",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "weights": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "eyeBones": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "bone": {
+                      "type": "string"
+                    },
+                    "range": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    }
+                  },
+                  "required": [
+                    "bone"
+                  ]
+                }
+              },
+              "looks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "time": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "angle": {
+                      "type": "number"
+                    },
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "eyes": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ],
+                      "additionalItems": false,
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  },
+                  "required": [
+                    "time"
+                  ]
+                }
+              },
+              "facing": {
+                "description": "0 right, 180 left",
+                "type": "number"
+              },
+              "amount": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "limit": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 180
+              },
+              "turnTime": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 3
+              },
+              "lead": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "overshoot": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 0.5
+              },
+              "duration": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 60
+              },
+              "loop": {
+                "type": "boolean"
+              }
+            }
+          },
+          "followThrough": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "bones": {
+                "description": "Parent first",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "strength": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "damping": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "inertia": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "mass": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "gravity": {
+                "type": "number"
+              },
+              "fps": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 120
+              },
+              "loop": {
+                "type": "boolean"
+              }
+            }
+          },
+          "lipSync": {
+            "type": "object",
+            "properties": {
+              "audio": {
+                "type": "string"
+              },
+              "slot": {
+                "type": "string"
+              },
+              "shapes": {
+                "description": "Closed to widest",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "jaw": {
+                "type": "object",
+                "properties": {
+                  "bone": {
+                    "type": "string"
+                  },
+                  "open": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "bone",
+                  "open"
+                ]
+              },
+              "fps": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 60
+              },
+              "start": {
+                "type": "number",
+                "minimum": 0
+              },
+              "end": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "gate": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "hold": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "phonemes",
+                  "loudness"
+                ]
+              },
+              "cues": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string",
+                  "enum": [
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "E",
+                    "F",
+                    "G",
+                    "H",
+                    "X"
+                  ]
+                },
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "required": [
+                  "A",
+                  "B",
+                  "C",
+                  "D",
+                  "E",
+                  "F",
+                  "G",
+                  "H",
+                  "X"
+                ]
+              },
+              "dialog": {
+                "type": "string"
+              },
+              "language": {
+                "type": "string",
+                "enum": [
+                  "english",
+                  "other"
+                ]
+              },
+              "audioEvent": {
+                "type": "string"
+              }
+            }
+          },
+          "turn": {
+            "type": "object",
+            "properties": {
+              "face": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "features": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "slot": {
+                      "type": "string"
+                    },
+                    "depth": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 2
+                    }
+                  },
+                  "required": [
+                    "slot"
+                  ]
+                }
+              },
+              "poses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "time": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "yaw": {
+                      "type": "number",
+                      "minimum": -80,
+                      "maximum": 80
+                    },
+                    "pitch": {
+                      "type": "number",
+                      "minimum": -80,
+                      "maximum": 80
+                    }
+                  },
+                  "required": [
+                    "time"
+                  ]
+                }
+              },
+              "turnTime": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 3
+              },
+              "duration": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 60
+              },
+              "loop": {
+                "type": "boolean"
+              }
+            }
+          },
+          "squash": {
+            "type": "object",
+            "properties": {
+              "slots": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "keys": {
+                "description": ">0 stretch, <0 squash",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "time": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "amount": {
+                      "type": "number",
+                      "minimum": -0.8,
+                      "maximum": 2
+                    }
+                  },
+                  "required": [
+                    "time",
+                    "amount"
+                  ]
+                }
+              },
+              "source": {
+                "description": "Or a driving animation, with bone",
+                "type": "string"
+              },
+              "bone": {
+                "type": "string"
+              },
+              "strength": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 5
+              },
+              "axis": {
+                "type": "number"
+              },
+              "anchor": {
+                "type": "string",
+                "enum": [
+                  "bottom",
+                  "center",
+                  "top"
+                ]
+              },
+              "fps": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 120
+              }
+            }
+          },
+          "sway": {
+            "type": "object",
+            "properties": {
+              "bones": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "amount": {
+                "type": "number"
+              },
+              "period": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "lag": {
+                "type": "number",
+                "minimum": 0
+              },
+              "harmonic": {
+                "type": "number",
+                "minimum": 0
+              },
+              "duration": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            }
+          },
+          "settle": {
+            "type": "object",
+            "properties": {
+              "bones": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "amounts": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "at": {
+                "type": "number",
+                "minimum": 0
+              },
+              "amount": {
+                "type": "number"
+              },
+              "swings": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 20
+              },
+              "decay": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "exclusiveMaximum": 1
+              },
+              "period": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "lag": {
+                "type": "number",
+                "minimum": 0
+              },
+              "ratio": {
+                "type": "number",
+                "minimum": 0
+              },
+              "duration": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            }
+          },
+          "blocking": {
+            "type": "object",
+            "properties": {
+              "poses": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "time": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "pose": {
+                      "type": "string",
+                      "description": "anim@seconds or saved name"
+                    }
+                  },
+                  "required": [
+                    "time",
+                    "pose"
+                  ]
+                }
+              },
+              "duration": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 120
+              },
+              "loop": {
+                "type": "boolean"
+              },
+              "spline": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                ]
+              },
+              "save": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "from": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "from"
+                  ]
+                }
+              }
+            }
+          },
+          "walk": {
+            "type": "object",
+            "properties": {
+              "legs": {
+                "minItems": 2,
+                "maxItems": 2,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "thigh": {
+                      "type": "string"
+                    },
+                    "shin": {
+                      "type": "string"
+                    },
+                    "foot": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "thigh",
+                    "shin"
+                  ]
+                }
+              },
+              "hip": {
+                "type": "string"
+              },
+              "arms": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "bone": {
+                      "type": "string"
+                    },
+                    "swing": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "bone"
+                  ]
+                }
+              },
+              "style": {
+                "type": "string",
+                "enum": [
+                  "walk",
+                  "run"
+                ]
+              },
+              "period": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 5
+              },
+              "stride": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "stepHeight": {
+                "type": "number",
+                "minimum": 0
+              },
+              "bob": {
+                "type": "number",
+                "minimum": 0
+              },
+              "crouch": {
+                "type": "number",
+                "minimum": 0
+              },
+              "facing": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "const": 1
+                  },
+                  {
+                    "type": "number",
+                    "const": -1
+                  }
+                ]
+              },
+              "lean": {
+                "type": "number",
+                "minimum": -45,
+                "maximum": 45
+              },
+              "fps": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 120
+              },
+              "view": {
+                "description": "front: faces the camera, marches in place",
+                "type": "string",
+                "enum": [
+                  "side",
+                  "front"
+                ]
+              },
+              "sway": {
+                "type": "number",
+                "minimum": 0
+              },
+              "footstepEvent": {
+                "type": "string"
+              }
+            }
+          },
+          "apply": {
+            "type": "boolean"
+          },
+          "replace": {
+            "type": "boolean"
+          },
+          "editor": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "staging",
+              "inPlace"
+            ]
+          },
+          "stagingPath": {
+            "type": "string"
+          },
+          "allowUpgrade": {
+            "description": "Write an older-version project",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "type"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_import_layers",
+      "title": "PSD layers to a new Spine project",
+      "description": "New Spine project from a layered PSD: a region per layer at its canvas position, draw order from layer order, bones from groups (or PhotoshopToSpine tags), images next to it; masks baked, unsupported effects reported. Or json: PhotoshopToSpine's output (checked). Or parts: PNGs placed by a layout JSON (See-through, cut-boxes or {parts:[{file,x,y|bbox|center,order,bone,pivot,slot}]}). Dry-run by default, never overwrites; verified by re-export and a render against the PSD or the placed parts. Places art only.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "psd": {
+            "type": "string"
+          },
+          "json": {
+            "type": "string"
+          },
+          "parts": {
+            "type": "string"
+          },
+          "layout": {
+            "description": "Default: layout.json or parts.json in parts or its parent",
+            "type": "string"
+          },
+          "output": {
+            "type": "string",
+            "description": "New .spine"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "bones": {
+            "type": "string",
+            "enum": [
+              "groups",
+              "root",
+              "layers"
+            ]
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "bottom-center",
+              "center",
+              "top-left"
+            ]
+          },
+          "scale": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 4
+          },
+          "includeHidden": {
+            "type": "boolean"
+          },
+          "targetHeight": {
+            "description": "Shown height in px: flags oversized art",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "apply": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "output"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_auto_rig",
+      "title": "Rig a layered PSD into a new Spine project",
+      "description": "Starting rig in a new project from a layered PSD or parts + layout: bones at joints, traced meshes, weights, optional two-bone IK; hidden lids rigged shut-collapsed. Without bones: suggests a skeleton over the art (nothing written; riders: one character sits on another; rigFrom: an approved rig's joints); pass back as bones. With bones: dry-run with checks; apply writes, validates, runs rig QA, renders test poses. Never overwrites.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "psd": {
+            "type": "string"
+          },
+          "parts": {
+            "type": "string"
+          },
+          "layout": {
+            "type": "string"
+          },
+          "output": {
+            "type": "string",
+            "description": "New .spine"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "bones": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "parent": {
+                  "type": "string"
+                },
+                "joint": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "additionalItems": false,
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "description": "Canvas px, y down"
+                },
+                "tip": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "additionalItems": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "layers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "name",
+                "joint"
+              ]
+            }
+          },
+          "ik": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "bones": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ],
+                  "additionalItems": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "target": {
+                  "type": "string"
+                },
+                "bendPositive": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "bones"
+              ]
+            }
+          },
+          "mesh": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "none",
+              "sparse"
+            ]
+          },
+          "weights": {
+            "type": "string",
+            "enum": [
+              "smooth",
+              "rigid",
+              "joint"
+            ]
+          },
+          "density": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 200
+          },
+          "blend": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 500
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "bottom-center",
+              "center",
+              "top-left"
+            ]
+          },
+          "scale": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 4
+          },
+          "targetHeight": {
+            "description": "Shown height in px: flags oversized art",
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "riders": {
+            "type": "boolean"
+          },
+          "rigFrom": {
+            "type": "string"
+          },
+          "apply": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "output"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_update_images",
+      "title": "Bring new PSD art into an existing project",
+      "description": "Updates a project's image files from a layered PSD without touching the .spine: layers matched to images and cut to their frames, so meshes and animations stay valid. placement psd takes the PSD's layout; grow enlarges a region image. Dry-run with before/after renders; apply backs up and writes. restore: a backup id.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": ".spine project"
+          },
+          "psd": {
+            "type": "string"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "only": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "placement": {
+            "type": "string",
+            "enum": [
+              "keep",
+              "psd"
+            ]
+          },
+          "grow": {
+            "type": "boolean"
+          },
+          "scale": {
+            "description": "Image export scale",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 4
+          },
+          "preview": {
+            "type": "boolean"
+          },
+          "restore": {
+            "type": "string"
+          },
+          "apply": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "psd"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_rig_edit",
+      "title": "Rig edits into a new project",
+      "description": "Adds bones, IK, physics, events and skins, sets setup poses, removes constraints, traces regions into meshes in place (meshRegion), copies meshes from another rig (copyMesh); written to a NEW .spine via JSON import (original untouched), listing what else the round trip changed. Dry-run by default; one skeleton.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": ".spine project"
+          },
+          "output": {
+            "type": "string",
+            "description": "New .spine"
+          },
+          "edits": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "addBone"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "parent": {
+                      "type": "string"
+                    },
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "rotation": {
+                      "type": "number"
+                    },
+                    "length": {
+                      "type": "number"
+                    },
+                    "scaleX": {
+                      "type": "number"
+                    },
+                    "scaleY": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "name",
+                    "parent"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "setBone"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "rotation": {
+                      "type": "number"
+                    },
+                    "length": {
+                      "type": "number"
+                    },
+                    "scaleX": {
+                      "type": "number"
+                    },
+                    "scaleY": {
+                      "type": "number"
+                    },
+                    "shearX": {
+                      "type": "number"
+                    },
+                    "shearY": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "name"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "addIk"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "bones": {
+                      "minItems": 1,
+                      "maxItems": 2,
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "target": {
+                      "type": "string"
+                    },
+                    "bendPositive": {
+                      "type": "boolean"
+                    },
+                    "mix": {
+                      "type": "number"
+                    },
+                    "softness": {
+                      "type": "number"
+                    },
+                    "compress": {
+                      "type": "boolean"
+                    },
+                    "stretch": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "name",
+                    "bones",
+                    "target"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "addPhysics"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "bone": {
+                      "type": "string"
+                    },
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "rotate": {
+                      "type": "number"
+                    },
+                    "scaleX": {
+                      "type": "number"
+                    },
+                    "shearX": {
+                      "type": "number"
+                    },
+                    "inertia": {
+                      "type": "number"
+                    },
+                    "strength": {
+                      "type": "number"
+                    },
+                    "damping": {
+                      "type": "number"
+                    },
+                    "mass": {
+                      "type": "number"
+                    },
+                    "wind": {
+                      "type": "number"
+                    },
+                    "gravity": {
+                      "type": "number"
+                    },
+                    "mix": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "name",
+                    "bone"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "addEvent"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "int": {
+                      "type": "number"
+                    },
+                    "float": {
+                      "type": "number"
+                    },
+                    "string": {
+                      "type": "string"
+                    },
+                    "audio": {
+                      "type": "string"
+                    },
+                    "volume": {
+                      "type": "number"
+                    },
+                    "balance": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "name"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "addSkin"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "from": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "name"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "removeConstraint"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "name"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "meshRegion"
+                    },
+                    "slot": {
+                      "type": "string"
+                    },
+                    "attachment": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "slot"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "const": "copyMesh"
+                    },
+                    "from": {
+                      "type": "string"
+                    },
+                    "slot": {
+                      "type": "string"
+                    },
+                    "attachment": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "op",
+                    "from",
+                    "slot"
+                  ]
+                }
+              ]
+            }
+          },
+          "apply": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "output",
+          "edits"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_list_backups",
+      "title": "List project backups",
+      "description": "Backups made before writes (newest first), ids for spine_restore_backup.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": ".spine project"
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_restore_backup",
+      "title": "Restore project backup",
+      "description": "Puts a backup back. Dry-run by default; apply backs up the current file first, then restores atomically.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "description": ".spine project"
+          },
+          "backupId": {
+            "type": "string"
+          },
+          "apply": {
+            "type": "boolean"
+          },
+          "force": {
+            "description": "Even if open in Spine",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "backupId"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_transfer_animation",
+      "title": "Transfer an animation to another skeleton",
+      "description": "Copies an animation to another skeleton or project, matching names (exact, map, then case/separator-insensitive); reports what matched, renamed or could not move, then adds it like spine_add_animation (dry-run by default). copies: merge mode for animators on copies of one project: what each copy added or changed, conflicts (resolve with prefer), then writes into the base (to).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "description": ".spine or .json",
+            "type": "string"
+          },
+          "animation": {
+            "type": "string"
+          },
+          "copies": {
+            "minItems": 1,
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "prefer": {
+            "description": "animation -> copy",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "fromSkeleton": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "toSkeleton": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "map": {
+            "description": "source -> target; attachments \"slot/attachment\"",
+            "type": "object",
+            "properties": {
+              "bones": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "slots": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "constraints": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "events": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "skins": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "attachments": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "normalize": {
+            "type": "boolean"
+          },
+          "retarget": {
+            "description": "Scale translate keys to the target",
+            "type": "object",
+            "properties": {
+              "translate": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "skeleton",
+                      "parent"
+                    ]
+                  },
+                  {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  }
+                ]
+              }
+            }
+          },
+          "apply": {
+            "type": "boolean"
+          },
+          "replace": {
+            "type": "boolean"
+          },
+          "editor": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "staging",
+              "inPlace"
+            ]
+          },
+          "stagingPath": {
+            "type": "string"
+          },
+          "allowUpgrade": {
+            "description": "Write an older-version project",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "to"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_edit_animation",
+      "title": "Copy and edit animation keyframes",
+      "description": "Copies source to name, edits timelines in order, then uses backed-up CLI import and readback verification. Dry-run by default. edits:[] duplicates. path is JSON segments, e.g. ['bones','head','rotate']; times are seconds. set replaces whole keys at matching times. easing is normalized; raw key.curve is absolute Spine 4.3. See docs/USAGE.md#keyframe-editing.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "edits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "op": {
+                  "type": "string",
+                  "enum": [
+                    "set",
+                    "delete"
+                  ]
+                },
+                "path": {
+                  "minItems": 1,
+                  "maxItems": 5,
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "keys": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "propertyNames": {
+                      "type": "string"
+                    },
+                    "additionalProperties": {}
+                  }
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "upsert",
+                    "append",
+                    "replace"
+                  ]
+                },
+                "times": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "easing": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "op",
+                "path"
+              ]
+            }
+          },
+          "apply": {
+            "type": "boolean"
+          },
+          "replace": {
+            "type": "boolean"
+          },
+          "loopAnimations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "editor": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "staging",
+              "inPlace"
+            ]
+          },
+          "stagingPath": {
+            "type": "string"
+          },
+          "allowUpgrade": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "source",
+          "name",
+          "edits"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_export",
+      "title": "Export runtime files",
+      "description": "Exports runtime files (JSON and/or .skel plus a packed atlas, optional scales), verified with spine-core in a temp folder before copying to outputDir (no overwrite unless set; project untouched, ~3-5 s). Reports page fill and texture memory. sweep: ranks atlas settings by texture memory and pages, writing nothing.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "preset": {
+            "description": "mobile/desktop: binary, PMA, 2048/4096; web: JSON, PMA, 2048",
+            "type": "string",
+            "enum": [
+              "mobile",
+              "desktop",
+              "web"
+            ]
+          },
+          "atlasPerSkin": {
+            "type": "boolean"
+          },
+          "editorVersion": {
+            "description": "Data format editor: \"project\" or e.g. \"4.2.43\" (default pinned)",
+            "type": "string"
+          },
+          "project": {
+            "type": "string"
+          },
+          "outputDir": {
+            "description": "Not for sweep",
+            "type": "string"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "json",
+              "binary",
+              "both"
+            ]
+          },
+          "atlas": {
+            "type": "boolean"
+          },
+          "atlasName": {
+            "type": "string"
+          },
+          "scales": {
+            "description": "e.g. [1, 0.5]",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 4
+            }
+          },
+          "maxSize": {
+            "type": "integer",
+            "minimum": 64,
+            "maximum": 16384
+          },
+          "premultipliedAlpha": {
+            "type": "boolean"
+          },
+          "nonessential": {
+            "type": "boolean"
+          },
+          "prettyPrint": {
+            "type": "boolean"
+          },
+          "imagesDir": {
+            "type": "string"
+          },
+          "clean": {
+            "description": "Spine's animation clean up",
+            "type": "boolean"
+          },
+          "overwrite": {
+            "type": "boolean"
+          },
+          "pot": {
+            "type": "boolean"
+          },
+          "packing": {
+            "type": "string",
+            "enum": [
+              "polygons",
+              "rectangles"
+            ]
+          },
+          "padding": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 16
+          },
+          "sweep": {
+            "description": "Values to try",
+            "type": "object",
+            "properties": {
+              "maxSize": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 64,
+                  "maximum": 16384
+                }
+              },
+              "pot": {
+                "type": "array",
+                "items": {
+                  "type": "boolean"
+                }
+              },
+              "packing": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "polygons",
+                    "rectangles"
+                  ]
+                }
+              },
+              "padding": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 16
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_showcase",
+      "title": "Make a showcase animation",
+      "description": "1-4 animations rendered by Spine side by side, labelled, as an animated .webp (alpha), .gif or .mp4 written only to output. For before/after and reels. Needs ImageMagick plus img2webp or ffmpeg.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "items": {
+            "minItems": 1,
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "animation": {
+                  "type": "string"
+                },
+                "label": {
+                  "description": "\"\" hides it",
+                  "type": "string"
+                },
+                "skin": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "animation"
+              ]
+            }
+          },
+          "output": {
+            "type": "string",
+            "description": ".webp, .gif or .mp4"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 64,
+            "maximum": 3840
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 60
+          },
+          "scale": {
+            "description": "Percent",
+            "type": "number",
+            "minimum": 5,
+            "maximum": 400
+          },
+          "background": {
+            "description": "\"transparent\" (webp) or hex",
+            "type": "string"
+          },
+          "hold": {
+            "description": "Last-frame hold, s",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "loops": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "align": {
+            "type": "string",
+            "enum": [
+              "bottom",
+              "center"
+            ]
+          },
+          "overwrite": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "items",
+          "output"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_unity_check",
+      "title": "Check the export in Unity",
+      "description": "Fresh export into a throwaway Unity project, every animation vs spine-core bone by bone (~30 s); perf: CPU/GC per skeleton. Options: docs/USAGE.md#into-your-unity-project.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "unityVersion": {
+            "description": "Default newest: 7000.0.0a16, 6000.6.8f1, 6000.3.28f1, 6000.0.85f2",
+            "type": "string"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "json",
+              "binary"
+            ]
+          },
+          "samples": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 200
+          },
+          "premultipliedAlpha": {
+            "type": "boolean"
+          },
+          "render": {
+            "description": "vs Spine's render",
+            "type": "boolean"
+          },
+          "renderAnimations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "renderFps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30
+          },
+          "renderScale": {
+            "type": "number",
+            "minimum": 10,
+            "maximum": 200
+          },
+          "colorSpace": {
+            "type": "string",
+            "enum": [
+              "gamma",
+              "linear"
+            ]
+          },
+          "renderPipeline": {
+            "type": "string",
+            "enum": [
+              "built-in",
+              "urp"
+            ]
+          },
+          "urpShaders": {
+            "type": "boolean"
+          },
+          "mecanimTransitions": {
+            "description": "SkeletonMecanim vs the simulation",
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "from": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "duration": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 5
+                },
+                "at": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "trace": {
+                  "description": "Bone traced per frame",
+                  "type": "string"
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "mixNext",
+                    "alwaysMix",
+                    "hard",
+                    "match"
+                  ]
+                },
+                "autoReset": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "from",
+                "to"
+              ]
+            }
+          },
+          "renderComponent": {
+            "type": "string",
+            "enum": [
+              "animation",
+              "graphic"
+            ]
+          },
+          "canvasGroup": {
+            "type": "boolean"
+          },
+          "tracks": {
+            "description": "Looping, one per track",
+            "minItems": 1,
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tracksSeconds": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "maximum": 120
+          },
+          "tracksPhysics": {
+            "type": "boolean"
+          },
+          "batching": {
+            "description": "spine-unity draw calls",
+            "type": "boolean"
+          },
+          "compression": {
+            "description": "Android formats vs RGBA32",
+            "minItems": 1,
+            "maxItems": 7,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "etc2",
+                "astc4x4",
+                "astc5x5",
+                "astc6x6",
+                "astc8x8",
+                "astc10x10",
+                "astc12x12"
+              ]
+            }
+          },
+          "spineUnity": {
+            "description": "Commit, or a Unity project's lock",
+            "type": "string"
+          },
+          "perf": {
+            "type": "object",
+            "properties": {
+              "animations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "counts": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "frames": {
+                "type": "number"
+              },
+              "skin": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_review_video",
+      "title": "Review video",
+      "description": "Review cut MP4: each animation rendered by Spine at each speed, every frame labelled (animation, speed, frame, time); optional audio under real-time passes and a title card. Writes only output.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "animations": {
+            "minItems": 1,
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "speeds": {
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 4
+            }
+          },
+          "loops": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 8,
+            "maximum": 60
+          },
+          "scale": {
+            "type": "number",
+            "minimum": 5,
+            "maximum": 200
+          },
+          "skin": {
+            "type": "string"
+          },
+          "background": {
+            "type": "string"
+          },
+          "audio": {
+            "type": "string"
+          },
+          "audioOffset": {
+            "type": "number",
+            "minimum": 0
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "output": {
+            "type": "string",
+            "description": ".mp4"
+          },
+          "overwrite": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "animations",
+          "output"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_motion_visual",
+      "title": "Onion skin, arcs and curves",
+      "description": "Onion skin, bone arcs (one dot per frame) and value curves of one animation as an image, plus the numbers. Bones default to the 3 that travel furthest.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "animation": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "onion",
+              "arcs",
+              "graph",
+              "all"
+            ]
+          },
+          "bones": {
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 60
+          },
+          "ghosts": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 24
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 240,
+            "maximum": 1200
+          }
+        },
+        "required": [
+          "project",
+          "animation"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_reference_timing",
+      "title": "Timing from a reference video",
+      "description": "Timing from a reference video (optional crop): motion peaks, holds, cuts and repeat period as a frame table, graph and sheet. compare aligns a Spine animation on the peaks (speed ratio, offset, per-peak frames).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "video": {
+            "type": "string"
+          },
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "end": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "crop": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ]
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 6,
+            "maximum": 60
+          },
+          "compare": {
+            "type": "object",
+            "properties": {
+              "project": {
+                "type": "string"
+              },
+              "skeleton": {
+                "type": "string"
+              },
+              "animation": {
+                "type": "string"
+              },
+              "scale": {
+                "type": "number",
+                "minimum": 5,
+                "maximum": 200
+              }
+            },
+            "required": [
+              "project",
+              "animation"
+            ]
+          },
+          "sheet": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "video"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_video_inspect",
+      "title": "Inspect a video frame by frame",
+      "description": "Frame-by-frame video check: encoding (VFR, size, pixel format, audio), segments at cuts and transitions with hold pattern (ones/twos), flashes, stutters, dropped frames, motion peaks, audio onsets vs cuts/peaks; an event list, per-frame curves and an overview sheet. verify compares a segment with a Spine animation. Exact frames: spine_video_frames.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "video": {
+            "type": "string"
+          },
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "end": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "crop": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ]
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 6,
+            "maximum": 120
+          },
+          "verify": {
+            "type": "object",
+            "properties": {
+              "project": {
+                "type": "string"
+              },
+              "skeleton": {
+                "type": "string"
+              },
+              "animation": {
+                "type": "string"
+              },
+              "segment": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "start": {
+                "type": "number",
+                "minimum": 0
+              },
+              "end": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "crop": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "y": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "width": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "height": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "x",
+                  "y",
+                  "width",
+                  "height"
+                ]
+              }
+            },
+            "required": [
+              "project",
+              "animation"
+            ]
+          },
+          "sheet": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "video"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_video_frames",
+      "title": "Exact video frames",
+      "description": "Exact video frames by number (spine_video_inspect's numbering) as a labelled sheet; diff marks changes in red, onion blends them. Up to 48 per call.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "video": {
+            "type": "string"
+          },
+          "frames": {
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "range": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "to": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "step": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              }
+            },
+            "required": [
+              "from",
+              "to"
+            ]
+          },
+          "start": {
+            "type": "number",
+            "minimum": 0
+          },
+          "end": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 6,
+            "maximum": 120
+          },
+          "crop": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ]
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "frames",
+              "diff",
+              "onion"
+            ]
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 80,
+            "maximum": 1920
+          },
+          "columns": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12
+          }
+        },
+        "required": [
+          "video"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_unity_import",
+      "title": "Import into a Unity project",
+      "description": "Imports a .spine into a Unity project with spine-unity (data, atlas, materials, mixes, prefab), then compares it bone by bone with spine-core; reports texture settings and render pipeline. Dry-run by default. update: replace in place (backed up, GUIDs kept). With Unity open, only files are copied. audit: read-only scan (version, data files, API changes).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "description": "Not for audit",
+            "type": "string"
+          },
+          "unityProject": {
+            "type": "string"
+          },
+          "audit": {
+            "type": "boolean"
+          },
+          "sources": {
+            "description": "audit: .spine files or folders",
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "folder": {
+            "description": "Default Assets/Spine/<name>",
+            "type": "string"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "json",
+              "binary"
+            ]
+          },
+          "premultipliedAlpha": {
+            "type": "boolean"
+          },
+          "prefab": {
+            "type": "boolean"
+          },
+          "component": {
+            "type": "string",
+            "enum": [
+              "animation",
+              "graphic",
+              "mecanim"
+            ]
+          },
+          "referenceAssets": {
+            "type": "boolean"
+          },
+          "followers": {
+            "description": "Bones with a BoneFollower child",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "startingAnimation": {
+            "type": "string"
+          },
+          "loop": {
+            "type": "boolean"
+          },
+          "skin": {
+            "type": "string"
+          },
+          "defaultMix": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10
+          },
+          "mixes": {
+            "maxItems": 400,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "from": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "duration": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 10
+                }
+              },
+              "required": [
+                "from",
+                "to",
+                "duration"
+              ]
+            }
+          },
+          "update": {
+            "type": "boolean"
+          },
+          "apply": {
+            "type": "boolean"
+          },
+          "unityVersion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "unityProject"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_web_check",
+      "title": "Check the export on the web runtime",
+      "description": "Renders a fresh export with spine-webgl in headless Chrome and compares every frame with Spine's render (silhouette IoU, colour difference, worst frame). Needs Chrome or CHROME_BIN.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "animations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30
+          },
+          "scale": {
+            "type": "number",
+            "minimum": 10,
+            "maximum": 200
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_mix_check",
+      "title": "Check animation transitions for pops",
+      "description": "Plays transitions with spine-core's AnimationState like a game (mixes, optional base track), switching at several points; reports pops with phase and likely cause, timelines first keyed after 0, and events lost inside the mix. runtime mecanim: as spine-unity's SkeletonMecanim, plus the keys each incoming animation needs (setupKeys).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "transitions": {
+            "description": "Default: every pair, up to limit",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "from": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "mix": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 5
+                }
+              },
+              "required": [
+                "from",
+                "to"
+              ]
+            }
+          },
+          "defaultMix": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 5
+          },
+          "track": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          },
+          "base": {
+            "description": "Loops on track 0 (track >= 1)",
+            "type": "string"
+          },
+          "at": {
+            "description": "Switch points, share of outgoing",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 15,
+            "maximum": 240
+          },
+          "bones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          },
+          "trace": {
+            "description": "Bone traced per frame",
+            "type": "string"
+          },
+          "eventThreshold": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "runtime": {
+            "type": "string",
+            "enum": [
+              "animationState",
+              "mecanim"
+            ]
+          },
+          "mecanimMode": {
+            "type": "string",
+            "enum": [
+              "mixNext",
+              "alwaysMix",
+              "hard",
+              "match"
+            ]
+          },
+          "autoReset": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "input"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_budget",
+      "title": "Performance budget",
+      "description": "Spine Metrics over the setup pose and every frame: attachments, vertices, vertex transforms, triangles, area, clipping, draw call estimate, timelines, constraint costs; worst values with animation@time. limits for pass/fail; draw calls need atlas or pack (~4 s).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "description": "Needed only with several skeletons",
+            "type": "string"
+          },
+          "atlas": {
+            "type": "string"
+          },
+          "pack": {
+            "description": "Temporary atlas (projects)",
+            "type": "boolean"
+          },
+          "skin": {
+            "type": "string"
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 120
+          },
+          "limits": {
+            "type": "object",
+            "properties": {
+              "bones": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "constraints": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "vertexTransforms": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "vertices": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "drawCalls": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "clippedTriangles": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "area": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "required": [
+          "input"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_snapshot",
+      "title": "Snapshot a project",
+      "description": "Saves a labelled, verified backup copy before risky editor work (compare later with spine_reimport_diff). Without label: lists snapshots.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_reimport_diff",
+      "title": "What a re-import changed",
+      "description": "Compares a project with a snapshot (default latest) or another .spine/.json: what broke (lost keys, weights, meshes, removed items) and what changed, then where playback of common animations now differs.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "snapshot": {
+            "type": "string"
+          },
+          "before": {
+            "description": "Or another .spine/.json",
+            "type": "string"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 120
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_editor_status",
+      "title": "Spine editor status and import check",
+      "description": "Is a Spine editor window open (and likely on this project)? While it is, writes go to a verified staging copy. With project: what still waits in the staging copy; animations confirms each one after Import Project and a save.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "staged": {
+            "description": "Staging copy",
+            "type": "string"
+          },
+          "animations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "skeleton": {
+            "type": "string"
+          }
+        },
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_status",
+      "title": "Project status and recent spine-mcp steps",
+      "description": "Instant, no CLI: file state, editor window, staging copy, backups, spine-mcp's last steps on the project and outside changes since. Call first when resuming work.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string"
+          },
+          "recent": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          }
+        },
+        "required": [
+          "project"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_rig_qa",
+      "title": "Rig QA",
+      "description": "Rig hygiene: names (spaces, clashes, default names, mixed left/right styles), unused bones, attachments, slots and events, bad setup scale, weights not summing to 1, too many influences, weights that fold when a bone turns, joints that open, art a mesh cuts off, missing or unused images. Complements spine_validate.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "maxInfluences": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16
+          }
+        },
+        "required": [
+          "input"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_skins",
+      "title": "Skin and skin combination check",
+      "description": "Checks each skin, or mix-and-match combinations: attachment counts, slots several skins set (last wins), slots none fills, and each one's budget over every frame. atlas or pack for exact draw calls.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": ".spine, .json or .skel(.bytes)"
+          },
+          "skeleton": {
+            "type": "string"
+          },
+          "combinations": {
+            "description": "Skin lists, in order",
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "atlas": {
+            "type": "string"
+          },
+          "pack": {
+            "type": "boolean"
+          },
+          "animations": {
+            "description": "false: setup pose only",
+            "type": "boolean"
+          },
+          "fps": {
+            "type": "integer",
+            "minimum": 5,
+            "maximum": 60
+          },
+          "limits": {
+            "description": "Device budget for pass/fail",
+            "type": "object",
+            "properties": {
+              "bones": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "constraints": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "vertexTransforms": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "vertices": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "drawCalls": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "clippedTriangles": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "area": {
+                "type": "number"
+              }
+            }
+          },
+          "render": {
+            "description": "Draw them side by side (Chrome)",
+            "type": "boolean"
+          },
+          "renderAnimation": {
+            "type": "string"
+          },
+          "renderTime": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "input"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    },
+    {
+      "name": "spine_audit",
+      "title": "Audit a folder of Spine projects",
+      "description": "Validate, rig QA and budget on every .spine and skeleton .json under a folder: one ok/fail row per skeleton (strict: validation warnings fail too). For release checks and CI.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "folder": {
+            "type": "string"
+          },
+          "limits": {
+            "description": "Device budget for pass/fail",
+            "type": "object",
+            "properties": {
+              "bones": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "constraints": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "vertexTransforms": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "vertices": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "drawCalls": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "clippedTriangles": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "area": {
+                "type": "number"
+              }
+            }
+          },
+          "strict": {
+            "type": "boolean"
+          },
+          "max": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500
+          },
+          "onlyFailed": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "folder"
+        ],
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "readOnlyHint": true
+      },
+      "execution": {
+        "taskSupport": "forbidden"
+      }
+    }
+  ]
+}

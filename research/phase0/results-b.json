@@ -1,0 +1,42 @@
+[
+  {
+    "experiment": "size_delta_anim_add",
+    "ok": true,
+    "detail": "first add 56739->53238 (re-save); second add 53238->53293 (+55 B); idle json 6664 B"
+  },
+  {
+    "experiment": "anim_missing_bone",
+    "ok": true,
+    "detail": "rc=0 imported=True ghost_kept=False bone_added=False log=['Imported animation: missing_bone', 'Bone not found: [bone: ghost-bone, animation: missing_bone, skeleton: in-missing_bone]', 'Complete.']"
+  },
+  {
+    "experiment": "anim_invalid_ref",
+    "ok": true,
+    "detail": "rc=1 size 53364->53364 log=['Cause: [serialize] Bone not found: nope-bone', '   at s.NjU._(_:947)', '   at s.NjU._(_:538) ...']"
+  },
+  {
+    "experiment": "anim_missing_attachment",
+    "ok": true,
+    "detail": "rc=0 imported=True attachment_added=False log=['Imported animation: missing_att', 'Attachment key in [timeline: attach, slot: eye, animation: missing_att, skeleton: in-missing_att], attachment not found: [region: eye-ghost, skeleton: in-missing_att, slot: eye]', 'Complete.']"
+  },
+  {
+    "experiment": "from_to_multi_skeleton",
+    "ok": true,
+    "detail": "skeleton_import rc=0 anim_to rc=0 log=['Imported animation: to_second', 'Complete.'] info=['Skeleton: spineboy-pro', 'Animations (15): aim, death, hoverboard, idle, idle-turn, idle_copy, idle_copy2, jump, missing_att, missing_bone, portal, run, run-to-idle, shoot, walk', 'Skeleton: second', 'Animations (2): idle, to_second']"
+  },
+  {
+    "experiment": "anim_physics_timelines",
+    "ok": true,
+    "detail": "anim=wind-idle rc=0 diffs=[] +-4382 B"
+  },
+  {
+    "experiment": "anim_slider",
+    "ok": true,
+    "detail": "slider={'type': 'slider', 'name': 'rotation', 'loop': True, 'animation': 'rotation', 'bone': 'diamond-rotation-control', 'property': 'rotate', 'max': 2, 'scale': 0.005555556, 'local': True} slider_anim=disappear copied=disappear rc=0 diffs=[]"
+  },
+  {
+    "experiment": "anim_deform",
+    "ok": true,
+    "detail": "alien/death rc=0 diffs=[]"
+  }
+]

@@ -1,0 +1,14 @@
+# Source and docs check out with LF on every platform (Windows Git would otherwise write CRLF).
+* text=auto eol=lf
+# Third-party license texts stay byte for byte as published.
+docs/media/examples/LICENSE-*.txt -text
+# Binary assets
+*.spine binary
+*.skel binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.webp binary
+*.mp4 binary
+*.wav binary
+*.psd binary

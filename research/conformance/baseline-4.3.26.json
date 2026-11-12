@@ -1,0 +1,409 @@
+{
+  "version": "4.3.26",
+  "recordedAt": "2026-10-19T21:35:54.794Z",
+  "probes": {
+    "version-pin": {
+      "ok": true,
+      "facts": {
+        "editor": "<v>"
+      }
+    },
+    "project-info": {
+      "ok": true,
+      "facts": {
+        "projects": 1,
+        "spineVersion": "<v>",
+        "dopesheetFps": 30,
+        "skeletons": [
+          "bolt"
+        ],
+        "lists": [
+          "Animations",
+          "Bones",
+          "Physics constraints",
+          "Slots"
+        ],
+        "animations": [
+          "hop",
+          "idle",
+          "wave"
+        ]
+      }
+    },
+    "json-export": {
+      "ok": true,
+      "facts": {
+        "spine": "<v>",
+        "skeletonFields": [
+          "audio",
+          "hash",
+          "height",
+          "images",
+          "spine",
+          "width",
+          "x",
+          "y"
+        ],
+        "topLevel": [
+          "animations",
+          "bones",
+          "constraints",
+          "skeleton",
+          "skins",
+          "slots"
+        ],
+        "rotateKeyFields": [
+          "curve",
+          "time",
+          "value"
+        ],
+        "explicitTimeZero": false,
+        "bones": 14,
+        "animations": [
+          "hop",
+          "idle",
+          "wave"
+        ]
+      }
+    },
+    "settings-class": {
+      "ok": true,
+      "facts": {
+        "jsonClassProduces": true,
+        "exportJsonClass": {
+          "exitCode": 0,
+          "flagged": false,
+          "warnings": 0,
+          "errors": 0,
+          "lines": [
+            "JSON export: bolt"
+          ]
+        }
+      }
+    },
+    "png-render": {
+      "ok": true,
+      "facts": {
+        "frames": 10,
+        "namePattern": [
+          "frame_#.png"
+        ],
+        "opaqueCorner": true
+      }
+    },
+    "png-hex-background": {
+      "ok": true,
+      "facts": {
+        "exitCode": 1,
+        "flagged": true,
+        "warnings": 0,
+        "errors": 2,
+        "lines": [
+          "ERROR: Error reading Spine export settings JSON file:",
+          "<work>/05-hex-bg/settings.json",
+          "Use an export settings file saved from the Export dialog. For texture packer settings, use --pack.",
+          "[serialize] Error reading file: <work>/05-hex-bg/settings.json",
+          "Cause: [serialize] Unable to convert value to required type: background: 808080ff (com.badlogic.gdx.graphics.Color)",
+          "Serialization trace:",
+          "background (com.esotericsoftware.spine.editor.export.ExportSettings$ExportPng)"
+        ],
+        "frames": 0
+      }
+    },
+    "anim-import-lossless": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "warnings": 0,
+        "structureChanged": [],
+        "otherAnimationsIdentical": true,
+        "newAnimationMatches": true,
+        "animations": [
+          "hop",
+          "idle",
+          "probe-nod",
+          "wave"
+        ]
+      }
+    },
+    "anim-same-name": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": true,
+        "warnings": 1,
+        "errors": 0,
+        "lines": [
+          "Animation import: bolt.json into bolt (bolt)",
+          "Imported animation: probe-nod",
+          "An animation with this name already exists: probe-nod -> probe-nod2"
+        ],
+        "added": [
+          "probe-nod2"
+        ]
+      }
+    },
+    "anim-replace": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "warnings": 0,
+        "replaced": true,
+        "sameNames": true
+      }
+    },
+    "missing-bone": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": true,
+        "warnings": 1,
+        "errors": 0,
+        "lines": [
+          "Animation import: bolt.json into bolt (bolt)",
+          "Imported animation: missing-bone",
+          "Bone not found: [bone: probe-bone, animation: missing-bone, skeleton: bolt]"
+        ],
+        "imported": true,
+        "keptTimelines": [
+          "bones"
+        ]
+      }
+    },
+    "missing-attachment": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": true,
+        "warnings": 1,
+        "errors": 0,
+        "lines": [
+          "Animation import: bolt.json into bolt (bolt)",
+          "Imported animation: missing-attachment",
+          "Attachment key in [timeline: attach, slot: head, animation: missing-attachment, skeleton: bolt], attachment not found: [region: probe-attachment, skeleton: bolt, slot: head]"
+        ],
+        "imported": true,
+        "keptTimelines": []
+      }
+    },
+    "undefined-event": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": true,
+        "warnings": 1,
+        "errors": 0,
+        "lines": [
+          "Animation import: bolt.json into bolt (bolt)",
+          "Imported animation: undefined-event",
+          "Event not found: [timeline: event, event: probe-event, animation: undefined-event, skeleton: bolt]"
+        ],
+        "imported": true,
+        "keptTimelines": [
+          "bones"
+        ]
+      }
+    },
+    "unknown-attachment-silent": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": false,
+        "warnings": 0,
+        "errors": 0,
+        "lines": [
+          "Animation import: bolt.json into bolt (bolt)",
+          "Imported animation: probe-unknown"
+        ],
+        "keptKeys": [
+          {
+            "time": 0.2
+          }
+        ]
+      }
+    },
+    "invalid-source": {
+      "ok": true,
+      "facts": {
+        "corrupt": {
+          "exitCode": 1,
+          "flagged": true,
+          "warnings": 0,
+          "errors": 1,
+          "lines": [
+            "Animation import: broken.json into bolt (bolt)",
+            "ERROR: Animation not found in source skeleton: x (skeleton: broken)"
+          ]
+        },
+        "missingInput": {
+          "exitCode": 1,
+          "flagged": true,
+          "warnings": 0,
+          "errors": 1,
+          "lines": [
+            "Parameter: --update <v>",
+            "Parameter: --input <work>/25-invalid/no-such-file.json",
+            "ERROR: Input path does not exist:",
+            "<work>/25-invalid/no-such-file.json"
+          ]
+        },
+        "untouched": true
+      }
+    },
+    "resave-version": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": false,
+        "warnings": 0,
+        "errors": 0,
+        "lines": [
+          "Animation import: bolt.json into bolt (bolt)",
+          "Imported animation: probe-nod"
+        ],
+        "savedAs": "<v>"
+      }
+    },
+    "key-merge": {
+      "ok": true,
+      "facts": {
+        "headTimes": [
+          0,
+          0.5,
+          1,
+          1.001,
+          1.5
+        ]
+      }
+    },
+    "float32-times": {
+      "ok": true,
+      "facts": {
+        "torsoTimes": [
+          0,
+          0.7166666,
+          1.5
+        ]
+      }
+    },
+    "equal-values-stepped": {
+      "ok": true,
+      "facts": {
+        "antennaCurves": [
+          "stepped",
+          "linear",
+          "linear",
+          "linear"
+        ]
+      }
+    },
+    "binary-header": {
+      "ok": true,
+      "facts": {
+        "files": [
+          "<name>.skel"
+        ],
+        "headers": [
+          "Spine <v> data"
+        ]
+      }
+    },
+    "mesh-import": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": false,
+        "warnings": 0,
+        "errors": 0,
+        "lines": [
+          "Project import: bolt.json into bolt"
+        ]
+      }
+    },
+    "mesh-no-edges": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": true,
+        "warnings": 1,
+        "errors": 0,
+        "lines": [
+          "Project import: bolt.json into bolt",
+          "WARNING: Nonessential unchecked when exporting, mesh internal edges lost: head"
+        ]
+      }
+    },
+    "deform-clip": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": false,
+        "warnings": 0,
+        "errors": 0,
+        "lines": [
+          "Animation import: bolt.json into bolt (bolt)",
+          "Imported animation: probe-deform"
+        ],
+        "keys": [
+          {
+            "time": 0,
+            "offset": 4,
+            "vertices": [
+              0.02000046,
+              0.02000046,
+              0.5,
+              0.5
+            ]
+          },
+          {
+            "time": 0.03333333,
+            "offset": 4,
+            "vertices": [
+              0.02000046,
+              0.02000046,
+              0.5,
+              0.5
+            ]
+          },
+          {
+            "time": 0.06666667,
+            "offset": 0,
+            "vertices": []
+          },
+          {
+            "time": 0.5,
+            "offset": 0,
+            "vertices": []
+          }
+        ]
+      }
+    },
+    "full-roundtrip": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": false,
+        "warnings": 0,
+        "errors": 0,
+        "lines": [
+          "Project import: bolt.json into bolt"
+        ],
+        "sectionsDiffer": [],
+        "animationsIdentical": true
+      }
+    },
+    "data-version-tag": {
+      "ok": true,
+      "facts": {
+        "exitCode": 0,
+        "flagged": true,
+        "warnings": 1,
+        "errors": 0,
+        "lines": [
+          "Project import: bolt.json into bolt",
+          "WARNING: Data version 4.2.43 does not match Spine version <v>. The Spine version should match the version that exported the data file."
+        ]
+      }
+    }
+  }
+}

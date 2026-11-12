@@ -1,0 +1,6 @@
+spine-mcp lets an AI agent read, measure, see and safely edit Spine 4.3 animations. Spine has no scripting API, so it works through the official CLI, JSON and runtimes, and proves every write: backed up, re-exported, verified, rolled back on any mismatch.
+
+New: a folder of PNG parts into a two-character rig, files another tool wrote fixed on the way in, a bake cleaned from 183 keys to 12, a team's rules checked on every export.
+
+Every shot in the videos is a real result. MIT, macOS and Windows; you need your own Spine license.
+https://github.com/berkanisk/spine-mcp

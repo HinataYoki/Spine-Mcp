@@ -1,0 +1,896 @@
+{
+ "started": "2026-10-16T22:14:47.121Z",
+ "projects": [
+  {
+   "name": "1-weight-and-mass-ess",
+   "skeletons": [
+    {
+     "name": "1-weight-and-mass-balls-ess",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 9,
+      "slots": 8,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    },
+    {
+     "name": "1-weight-and-mass-drop-ess",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 4,
+      "slots": 5,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3138,
+   "writeMs": 6331,
+   "renderFrames": 33
+  },
+  {
+   "name": "2-the-12-principles-ess",
+   "skeletons": [
+    {
+     "name": "2-the-12-principles-ess",
+     "animations": 4,
+     "issues": {},
+     "counts": {
+      "bones": 12,
+      "slots": 17,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 4,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3203,
+   "writeMs": 6364,
+   "renderFrames": 259
+  },
+  {
+   "name": "3-timing-and-spacing-ess",
+   "skeletons": [
+    {
+     "name": "3-timing-and-spacing-ess",
+     "animations": 2,
+     "issues": {},
+     "counts": {
+      "bones": 3,
+      "slots": 2,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 2,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3248,
+   "writeMs": 6212,
+   "renderFrames": 54
+  },
+  {
+   "name": "4-wave-principle-ess",
+   "skeletons": [
+    {
+     "name": "4-wave-principle-ess",
+     "animations": 3,
+     "issues": {},
+     "counts": {
+      "bones": 9,
+      "slots": 9,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 3,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3055,
+   "writeMs": 6136,
+   "renderFrames": 100
+  },
+  {
+   "name": "5-squash-and-stretch-ess",
+   "skeletons": [
+    {
+     "name": "5-squash-and-stretch-ess",
+     "animations": 3,
+     "issues": {},
+     "counts": {
+      "bones": 16,
+      "slots": 13,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 3,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3073,
+   "writeMs": 6338,
+   "renderFrames": 65
+  },
+  {
+   "name": "6-arcs-pro",
+   "skeletons": [
+    {
+     "name": "6-arcs-pro",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 14,
+      "slots": 4,
+      "skins": 1,
+      "constraints": 4,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3116,
+   "writeMs": 6302,
+   "renderFrames": 57
+  },
+  {
+   "name": "7-anticipation-pro",
+   "skeletons": [
+    {
+     "name": "sack-pro",
+     "animations": 4,
+     "issues": {
+      "info:physics-bone-keyed": 4
+     },
+     "counts": {
+      "bones": 31,
+      "slots": 3,
+      "skins": 1,
+      "constraints": 24,
+      "animations": 4,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3198,
+   "writeMs": 6339,
+   "renderFrames": 30
+  },
+  {
+   "name": "8-follow-through-pro",
+   "skeletons": [
+    {
+     "name": "8-follow-through-pro-ball",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 12,
+      "slots": 2,
+      "skins": 1,
+      "constraints": 4,
+      "animations": 1,
+      "events": 0
+     }
+    },
+    {
+     "name": "8-follow-through-pro-pendulum",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 7,
+      "slots": 6,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3150,
+   "writeMs": 6178,
+   "renderFrames": 37
+  },
+  {
+   "name": "alien-ess",
+   "skeletons": [
+    {
+     "name": "alien-ess",
+     "animations": 4,
+     "issues": {},
+     "counts": {
+      "bones": 20,
+      "slots": 19,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 4,
+      "events": 1
+     }
+    }
+   ],
+   "exportMs": 3118,
+   "writeMs": 6215,
+   "renderFrames": 24
+  },
+  {
+   "name": "alien-pro",
+   "skeletons": [
+    {
+     "name": "alien-pro",
+     "animations": 4,
+     "issues": {},
+     "counts": {
+      "bones": 28,
+      "slots": 23,
+      "skins": 1,
+      "constraints": 3,
+      "animations": 4,
+      "events": 1
+     }
+    }
+   ],
+   "exportMs": 3089,
+   "writeMs": 6387,
+   "renderFrames": 22
+  },
+  {
+   "name": "celestial-circus-pro",
+   "skeletons": [
+    {
+     "name": "celestial-circus-pro",
+     "animations": 7,
+     "issues": {
+      "info:physics-bone-keyed": 4
+     },
+     "counts": {
+      "bones": 60,
+      "slots": 70,
+      "skins": 1,
+      "constraints": 33,
+      "animations": 7,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3180,
+   "writeMs": 6312,
+   "renderFrames": 4
+  },
+  {
+   "name": "chibi-stickers-pro",
+   "skeletons": [
+    {
+     "name": "chibi-stickers",
+     "animations": 40,
+     "issues": {},
+     "counts": {
+      "bones": 44,
+      "slots": 62,
+      "skins": 11,
+      "constraints": 3,
+      "animations": 40,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3531,
+   "writeMs": 8118,
+   "renderFrames": 7
+  },
+  {
+   "name": "cloud-pot-pro",
+   "skeletons": [
+    {
+     "name": "cloud-pot",
+     "animations": 3,
+     "issues": {
+      "info:physics-bone-keyed": 1
+     },
+     "counts": {
+      "bones": 29,
+      "slots": 29,
+      "skins": 1,
+      "constraints": 26,
+      "animations": 3,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3734,
+   "writeMs": 7528,
+   "renderFrames": 47
+  },
+  {
+   "name": "coin-pro",
+   "skeletons": [
+    {
+     "name": "coin-pro",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 7,
+      "slots": 6,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3311,
+   "writeMs": 6622,
+   "renderFrames": 27
+  },
+  {
+   "name": "diamond-pro",
+   "skeletons": [
+    {
+     "name": "diamond-pro",
+     "animations": 8,
+     "issues": {},
+     "counts": {
+      "bones": 8,
+      "slots": 30,
+      "skins": 1,
+      "constraints": 1,
+      "animations": 8,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3354,
+   "writeMs": 6569,
+   "renderFrames": 43
+  },
+  {
+   "name": "dragon-ess",
+   "skeletons": [
+    {
+     "name": "dragon-ess",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 33,
+      "slots": 30,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3210,
+   "writeMs": 6147,
+   "renderFrames": 10
+  },
+  {
+   "name": "food-app-ess",
+   "skeletons": [
+    {
+     "name": "food-app-cooking-ess",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 16,
+      "slots": 22,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    },
+    {
+     "name": "food-app-delivery-ess",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 27,
+      "slots": 30,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    },
+    {
+     "name": "food-app-ready-ess",
+     "animations": 11,
+     "issues": {
+      "warning:loop-seam": 1
+     },
+     "counts": {
+      "bones": 40,
+      "slots": 45,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 11,
+      "events": 0
+     }
+    },
+    {
+     "name": "food-app-search-ess",
+     "animations": 13,
+     "issues": {},
+     "counts": {
+      "bones": 11,
+      "slots": 20,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 13,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3124,
+   "writeMs": 6360,
+   "renderFrames": 17
+  },
+  {
+   "name": "food-app-pro",
+   "skeletons": [
+    {
+     "name": "food-app-cooking-pro",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 16,
+      "slots": 22,
+      "skins": 1,
+      "constraints": 1,
+      "animations": 1,
+      "events": 0
+     }
+    },
+    {
+     "name": "food-app-delivery-pro",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 28,
+      "slots": 30,
+      "skins": 1,
+      "constraints": 1,
+      "animations": 1,
+      "events": 0
+     }
+    },
+    {
+     "name": "food-app-ready-pro",
+     "animations": 11,
+     "issues": {
+      "warning:loop-seam": 1
+     },
+     "counts": {
+      "bones": 40,
+      "slots": 45,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 11,
+      "events": 0
+     }
+    },
+    {
+     "name": "food-app-search-pro",
+     "animations": 13,
+     "issues": {},
+     "counts": {
+      "bones": 11,
+      "slots": 20,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 13,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3113,
+   "writeMs": 6192,
+   "renderFrames": 17
+  },
+  {
+   "name": "goblins-ess",
+   "skeletons": [
+    {
+     "name": "goblins-ess",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 18,
+      "slots": 22,
+      "skins": 3,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3103,
+   "writeMs": 6122,
+   "renderFrames": 10
+  },
+  {
+   "name": "goblins-pro",
+   "skeletons": [
+    {
+     "name": "goblins-pro",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 21,
+      "slots": 23,
+      "skins": 3,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3137,
+   "writeMs": 6188,
+   "renderFrames": 10
+  },
+  {
+   "name": "hero-ess",
+   "skeletons": [
+    {
+     "name": "hero-ess",
+     "animations": 7,
+     "issues": {},
+     "counts": {
+      "bones": 18,
+      "slots": 20,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 7,
+      "events": 1
+     }
+    }
+   ],
+   "exportMs": 3112,
+   "writeMs": 6201,
+   "renderFrames": 4
+  },
+  {
+   "name": "hero-pro",
+   "skeletons": [
+    {
+     "name": "hero-pro",
+     "animations": 12,
+     "issues": {},
+     "counts": {
+      "bones": 44,
+      "slots": 31,
+      "skins": 3,
+      "constraints": 4,
+      "animations": 12,
+      "events": 1
+     }
+    }
+   ],
+   "exportMs": 3176,
+   "writeMs": 6191,
+   "renderFrames": 4
+  },
+  {
+   "name": "mix-and-match-pro",
+   "skeletons": [
+    {
+     "name": "mix-and-match-pro",
+     "animations": 6,
+     "issues": {},
+     "counts": {
+      "bones": 143,
+      "slots": 80,
+      "skins": 34,
+      "constraints": 23,
+      "animations": 6,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3153,
+   "writeMs": 6343,
+   "renderFrames": 11
+  },
+  {
+   "name": "owl-pro",
+   "skeletons": [
+    {
+     "name": "owl-pro",
+     "animations": 6,
+     "issues": {
+      "info:physics-bone-keyed": 5
+     },
+     "counts": {
+      "bones": 20,
+      "slots": 27,
+      "skins": 1,
+      "constraints": 11,
+      "animations": 6,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3076,
+   "writeMs": 6087,
+   "renderFrames": 53
+  },
+  {
+   "name": "powerup-ess",
+   "skeletons": [
+    {
+     "name": "powerup-ess",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 17,
+      "slots": 13,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3381,
+   "writeMs": 7017,
+   "renderFrames": 14
+  },
+  {
+   "name": "powerup-pro",
+   "skeletons": [
+    {
+     "name": "powerup-pro",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 21,
+      "slots": 13,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3290,
+   "writeMs": 6563,
+   "renderFrames": 14
+  },
+  {
+   "name": "raptor-pro",
+   "skeletons": [
+    {
+     "name": "raptor-pro",
+     "animations": 5,
+     "issues": {},
+     "counts": {
+      "bones": 76,
+      "slots": 36,
+      "skins": 1,
+      "constraints": 9,
+      "animations": 5,
+      "events": 1
+     }
+    }
+   ],
+   "exportMs": 3367,
+   "writeMs": 6603,
+   "renderFrames": 7
+  },
+  {
+   "name": "snowglobe-pro",
+   "skeletons": [
+    {
+     "name": "snowglobe-pro",
+     "animations": 3,
+     "issues": {
+      "info:physics-bone-keyed": 2
+     },
+     "counts": {
+      "bones": 86,
+      "slots": 111,
+      "skins": 1,
+      "constraints": 51,
+      "animations": 3,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3241,
+   "writeMs": 6483,
+   "renderFrames": 7
+  },
+  {
+   "name": "speedy-ess",
+   "skeletons": [
+    {
+     "name": "speedy-ess",
+     "animations": 3,
+     "issues": {},
+     "counts": {
+      "bones": 15,
+      "slots": 11,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 3,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3245,
+   "writeMs": 6614,
+   "renderFrames": 9
+  },
+  {
+   "name": "spineboy-ess",
+   "skeletons": [
+    {
+     "name": "spineboy-ess",
+     "animations": 8,
+     "issues": {
+      "warning:loop-seam": 1
+     },
+     "counts": {
+      "bones": 18,
+      "slots": 20,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 8,
+      "events": 1
+     }
+    }
+   ],
+   "exportMs": 3376,
+   "writeMs": 6452,
+   "renderFrames": 1
+  },
+  {
+   "name": "spineboy-pro",
+   "skeletons": [
+    {
+     "name": "spineboy-pro",
+     "animations": 11,
+     "issues": {},
+     "counts": {
+      "bones": 67,
+      "slots": 52,
+      "skins": 1,
+      "constraints": 14,
+      "animations": 11,
+      "events": 1
+     }
+    }
+   ],
+   "exportMs": 3228,
+   "writeMs": 6633,
+   "renderFrames": 1
+  },
+  {
+   "name": "spinosaurus-ess",
+   "skeletons": [
+    {
+     "name": "spinosaurus-ess",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 6,
+      "slots": 6,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3269,
+   "writeMs": 6323,
+   "renderFrames": 37
+  },
+  {
+   "name": "stretchyman-pro",
+   "skeletons": [
+    {
+     "name": "stretchyman-pro",
+     "animations": 2,
+     "issues": {},
+     "counts": {
+      "bones": 55,
+      "slots": 9,
+      "skins": 1,
+      "constraints": 10,
+      "animations": 2,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3190,
+   "writeMs": 6486,
+   "renderFrames": 20
+  },
+  {
+   "name": "tank-pro",
+   "skeletons": [
+    {
+     "name": "tank-pro",
+     "animations": 2,
+     "issues": {},
+     "counts": {
+      "bones": 115,
+      "slots": 200,
+      "skins": 1,
+      "constraints": 9,
+      "animations": 2,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3366,
+   "writeMs": 6473,
+   "renderFrames": 57
+  },
+  {
+   "name": "vine-pro",
+   "skeletons": [
+    {
+     "name": "vine-pro",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 18,
+      "slots": 2,
+      "skins": 1,
+      "constraints": 1,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3213,
+   "writeMs": 6479,
+   "renderFrames": 115
+  },
+  {
+   "name": "windmill-ess",
+   "skeletons": [
+    {
+     "name": "windmill-ess",
+     "animations": 1,
+     "issues": {},
+     "counts": {
+      "bones": 93,
+      "slots": 96,
+      "skins": 1,
+      "constraints": 0,
+      "animations": 1,
+      "events": 0
+     }
+    }
+   ],
+   "exportMs": 3353,
+   "writeMs": 6683,
+   "renderFrames": 50
+  }
+ ],
+ "problems": [
+  {
+   "where": "food-app-ess/food-app-ready-ess",
+   "what": "validator warning loop-seam: Loop \"idle\" jumps at the seam on 2 bone(s): bubble-small (35.655x), bubble-big (30.963x) (seam step vs neighbouring steps; intentional for resets such as partic"
+  },
+  {
+   "where": "food-app-pro/food-app-ready-pro",
+   "what": "validator warning loop-seam: Loop \"idle\" jumps at the seam on 2 bone(s): bubble-small (35.655x), bubble-big (30.963x) (seam step vs neighbouring steps; intentional for resets such as partic"
+  },
+  {
+   "where": "spineboy-ess/spineboy-ess",
+   "what": "validator warning loop-seam: Loop \"idle\" jumps at the seam on 1 bone(s): rear-foot (19.486x) (seam step vs neighbouring steps; intentional for resets such as particles)"
+  }
+ ],
+ "finished": "2026-10-16T22:23:05.769Z"
+}

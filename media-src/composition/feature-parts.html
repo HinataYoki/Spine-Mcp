@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>spine-mcp — painted parts</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="kit.css" />
+    <script src="kit.js"></script>
+    <style>
+      .vs { opacity: 0; }
+      .pair-row { display: flex; gap: 56px; align-items: center; justify-content: center; width: 1720px; }
+      .info { flex: 0 0 760px; }
+      .info .title { margin-bottom: 24px; font-size: 50px; }
+      .info .card { font-size: 25px; margin-bottom: 26px; }
+      .info .card .fn { font-size: 29px; }
+      .info .row { font-size: 30px; margin-bottom: 14px; }
+      .info .row .tick { width: 42px; height: 42px; font-size: 24px; }
+      .cards { display: flex; gap: 30px; }
+      .clip-card .sb { font-size: 23px; }
+      #p2, #p3 { opacity: 0; }
+      .info { flex-basis: 800px; }
+      .clip-card .stage { width: 420px; height: 386px; }
+      .fd { width: 420px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="root" data-composition-id="parts" data-start="0" data-duration="20" data-width="1920" data-height="1080">
+      <div class="bug"><img src="assets/img/logo.svg" alt="" />spine-mcp <span>· painted parts</span></div>
+
+      <section id="s1" class="scene clip" data-start="0" data-duration="3" data-track-index="0">
+        <div class="inner left" id="s1-in">
+          <div class="eyebrow" id="h0">Painted parts</div>
+          <div class="hook" id="h1">"No PSD. Just a folder of PNGs."</div>
+          <div class="hook-sub" id="h2">One painting, two characters,<br />one rig.</div>
+        </div>
+      </section>
+
+      <div id="s2" class="scene vs">
+        <div class="inner" id="s2-in">
+          <div class="pair-row">
+            <div class="info">
+              <div class="title" id="t2">Parts onto the painting</div>
+              <div class="card mono" id="c2">
+                <div class="fn">spine_import_layers</div>
+                <div><span class="k">parts</span><span class="s">"/art/cut"</span></div>
+                <div><span class="k">layout</span><span class="s">layout.json</span></div>
+              </div>
+<div class="row" id="a1"><div class="tick ">✓</div><span><b>24 parts</b> placed, slots in draw order</span></div>
+<div class="row" id="a2"><div class="tick ">✓</div><span>parts at rest = the painting (<b>IoU 1.0</b>)</span></div>
+            </div>
+            <div class="panel" id="p2"><img src="assets/gen/parts-painting.png" alt="The painting: Bolt and a smaller Bolt side by side" style="width:820px" /><div class="cap">The painting the parts were cut from</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="s3" class="scene vs">
+        <div class="inner" id="s3-in">
+          <div class="pair-row">
+            <div class="info">
+              <div class="title" id="t3">A bad cut is caught</div>
+              <div class="card mono" id="c3">
+                <div class="fn">parts.source · artQa</div>
+                <div><span class="k">ok</span><span class="s">false</span></div>
+              </div>
+<div class="row" id="b1"><div class="tick warn">!</div><span>head slipped: <b>IoU 0.96</b>, needs 0.97</span></div>
+<div class="row" id="b2"><div class="tick warn">!</div><span><b>edge-alpha-raised</b>: 1,508 px</span></div>
+<div class="row" id="b3"><div class="tick warn">!</div><span><b>stray-pixels</b>: Bolt_torso (281, 186)</span></div>
+            </div>
+            <div class="panel" id="p3"><img src="assets/gen/parts-slipped.png" alt="The same parts with Bolt's head slipped 14 pixels to the right" style="width:820px" /><div class="cap">The same parts, one layout value off</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="s4" class="scene vs">
+        <div class="inner" id="s4-in">
+          <div class="pair-row">
+            <div class="info">
+              <div class="title" id="t4">Rigged, then alive</div>
+              <div class="card mono" id="c4">
+                <div class="fn">spine_auto_rig</div>
+                <div><span class="k">part.bone</span><span class="s">"Bolt", "Pal"</span></div>
+              </div>
+<div class="row" id="d1"><div class="tick ">✓</div><span><b>31 bones · 24 slots · 6 IK</b>, one body each</span></div>
+<div class="row" id="d2"><div class="tick ">✓</div><span>setup off by <b>0.007 px</b>, <b>0.99</b> vs the art</span></div>
+<div class="row" id="d3"><div class="tick ">✓</div><span>figure-eight breath, keys at turning points</span></div>
+            </div>
+            <div class="cards">
+              <div class="clip-card fd"><div class="stage"><video id="v1" src="assets/gen/parts-idle.mp4" muted playsinline data-start="13.0" data-duration="4.0" data-track-index="2"></video></div><div class="meta"><div class="nm mono">idle-apart</div><div class="sb">Pal 0.8 s behind Bolt</div></div></div>
+              <div class="clip-card fd"><div class="stage"><video id="v2" src="assets/gen/parts-sway.mp4" muted playsinline data-start="13.0" data-duration="4.0" data-track-index="3"></video></div><div class="meta"><div class="nm mono">antenna-sway</div><div class="sb">sway: ±8°, whole frames</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section id="s5" class="scene clip" data-start="17" data-duration="3" data-track-index="0">
+        <div class="inner">
+          <div class="outro">
+            <img src="assets/img/logo.svg" alt="spine-mcp logo" />
+            <div class="nm">spine-mcp</div>
+            <div class="tag">A painting cut into PNGs, into one rig.</div>
+            <div class="small">38 tools · Spine 4.3 · MCP</div>
+          </div>
+        </div>
+      </section>
+
+      <audio id="music" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3" data-start="0" data-duration="20" data-track-index="10" data-volume="0.3"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0},{"t":0.8,"v":0.3},{"t":18.6,"v":0.3},{"t":20,"v":0}]}]}'></audio>
+      <audio id="x1" src="assets/sfx/impact/impactSoft_medium_001.ogg" data-start="1.64" data-duration="0.18" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="x2" src="assets/sfx/interface/click_005.ogg" data-start="3.3" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x3" src="assets/sfx/interface/click_003.ogg" data-start="4.5" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x4" src="assets/sfx/interface/click_003.ogg" data-start="8.5" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x5" src="assets/sfx/interface/click_003.ogg" data-start="9.8" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x6" src="assets/sfx/interface/click_003.ogg" data-start="13.0" data-duration="0.05" data-track-index="12" data-volume="0.45"></audio>
+      <audio id="x7" src="assets/sfx/interface/click_003.ogg" data-start="14.2" data-duration="0.05" data-track-index="13" data-volume="0.45"></audio>
+      <audio id="x8" src="assets/sfx/impact/impactBell_heavy_000.ogg" data-start="17" data-duration="1.48" data-track-index="14" data-volume="0.4"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      K.frame(tl, 20);
+      K.rise(tl, "#h0", 0.15);
+      K.rise(tl, "#h1", 0.3);
+      K.rise(tl, "#h2", 1.3);
+      K.out(tl, "#s1-in", 2.65);
+      const scene = (id, start, end, parts) => {
+        tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.01 }, start);
+        parts();
+        tl.to(`${id}-in`, { opacity: 0, duration: 0.35, ease: "power1.in" }, end - 0.4);
+        tl.to(id, { opacity: 0, duration: 0.01 }, end);
+      };
+      const cards = (sel, at) => tl.fromTo(sel, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.12, ease: "power3.out" }, at);
+      scene("#s2", 3.0, 8.2, () => {
+        K.rise(tl, "#t2", 3.05); K.rise(tl, "#c2", 3.3); cards("#p2", 3.4);
+        K.slide(tl, "#a1", 4.5); K.slide(tl, "#a2", 5.3);
+      });
+      scene("#s3", 8.2, 12.8, () => {
+        K.rise(tl, "#t3", 8.25); K.rise(tl, "#c3", 8.5); cards("#p3", 8.4);
+        K.slide(tl, "#b1", 9.2); K.slide(tl, "#b2", 9.8); K.slide(tl, "#b3", 10.4);
+      });
+      scene("#s4", 12.8, 17.0, () => {
+        K.rise(tl, "#t4", 12.85); K.rise(tl, "#c4", 13.0); cards(".fd", 13.0);
+        K.slide(tl, "#d1", 13.6); K.slide(tl, "#d2", 14.2); K.slide(tl, "#d3", 14.8);
+      });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["parts"] = tl;
+    </script>
+  </body>
+</html>

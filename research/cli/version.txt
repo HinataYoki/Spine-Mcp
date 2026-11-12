@@ -1,0 +1,6 @@
+Spine Launcher 4.3.08 (macOS Apple Silicon)
+Esoteric Software LLC (C) 2013-2026 | http://esotericsoftware.com
+Mac OS X aarch64 26.6.2
+Starting: Spine 4.3.26 Professional
+Spine 4.3.26 Professional
+Complete.
